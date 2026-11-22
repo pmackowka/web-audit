@@ -1,0 +1,46 @@
+# analytics
+
+Pasywny audyt wdrożenia analityki i prywatności na stronie WWW: tagi, Consent Mode v2, zgody, ciasteczka, odbiorcy danych, wycieki tokenów i danych osobowych.
+
+## Uruchomienie
+
+```bash
+cd analytics
+uv sync && uv run playwright install chromium   # raz
+uv run audit.py https://example.com --slug example [--extra-url https://example.com/kategoria --extra-url https://example.com/produkt] [--mask "Jan Kowalski"] [--headed]
+```
+
+W Claude Code: `/analytics-audit <url> <firma>` — uruchamia skrypt i uzupełnia raport wg [`CLAUDE.md`](CLAUDE.md).
+
+## Co sprawdza
+
+Trzy wczytania strony w świeżym kontekście Chromium (pl-PL, 1440×900):
+
+| Przebieg | Interakcja |
+|---|---|
+| A | brak — stan przed zgodą |
+| B | klik „odrzuć / tylko niezbędne” (pominięty, gdy brak przycisku) |
+| C | klik „akceptuj wszystkie” (pominięty, gdy brak przycisku) |
+
+Każdy przebieg: networkidle + 8 s, przewinięcie do dołu, 4 s. Zbierane: HAR z treścią, log żądań z body POST, ciasteczka, localStorage/sessionStorage, `window.dataLayer`.
+
+`--extra-url` dokłada w każdym przebiegu kolejne strony (wejście pod adres, przewinięcie) — potrzebne do walidacji e-commerce, bo strona główna rzadko wysyła zdarzenia produktowe.
+
+Skrypt niczego nie wysyła i nie wypełnia; klika tylko przyciski banera zgód.
+
+## Dowody (`screenshots/`)
+
+- `00-strona.png` — jedyny zrzut strony: pasek adresu (token zamaskowany), czas pierwszego żądania z HAR.
+- `E01…png` — plansza na każde znalezisko, w układzie panelu Network: adres strony, czas wysłania, numer wpisu w `raw/<przebieg>/network.har`, General / Query String / Payload z podświetlonymi danymi. Wycieki: jedna plansza na narzędzie (żądanie z najwięcej trafieniami); tagi bez zgody: przebieg A, po odrzuceniu: przebieg B.
+
+Plansze są renderowane z przechwyconego ruchu, a nie zrzucane z DevTools — dzięki temu są powtarzalne i zamaskowane. Weryfikacja: „wpis #n” = n-te żądanie w `raw/<przebieg>/network.har` (liczone od 1); po imporcie HAR do DevTools (Network → Import HAR) szukaj po URL i czasie z planszy.
+
+## Jak czytać raport
+
+`reports/analytics/RRRR-MM-DD-<firma>/RAPORT.md` (cały folder w `.gitignore`, raporty zostają lokalnie):
+- **Faza przed/po** — żądanie wysłane przed/po kliknięciu w baner. Tag analityczny w B/„po” = odpala mimo odmowy.
+- **gcs** — `G1xy`: x = ad_storage, y = analytics_storage (1 granted, 0 denied).
+- **E-commerce (sekcja 10)** — pushe `ecommerce` w dataLayer vs [referencja zdarzeń GA4](https://developers.google.com/analytics/devguides/collection/ga4/reference/events): format UA zamiast `items`, produkty bez `item_id`/`item_name`, liczby jako tekst, `value` bez `currency`, `value` ≠ suma price×quantity, brak `transaction_id`, brak `ecommerce: null`, zdarzenie bez żądania GA4 albo żądanie GA4 bez produktów (`pr1…`). Walidowany przebieg C (po akceptacji), a bez niego A.
+- **Wycieki** — token z URL, e-mail lub telefon w URL, Refererze albo body żądania do obcej domeny.
+- Tokeny i dane osobowe w raporcie są zamaskowane (`abcd…`). Surowe dane są w `raw/` obok raportu.
+

@@ -1,6 +1,6 @@
 # web-audit
 
-Deterministyczny audyt SEO i dostępności (WCAG) dowolnej strony. Kod (Playwright + axe-core + Lighthouse) ocenia stronę i generuje raport Markdown, który agent wdrażający poprawki może przyjąć jako wsad. Projekt powstał jako nauka Claude Code (MCP, skile, hooki, agenci) — stąd wariant LLM i notatki w `docs/`.
+Dwa niezależne audyty dowolnej strony: SEO i dostępność (WCAG) w `audit/` oraz analityka i prywatność (GA4, GTM, Consent Mode v2, ciasteczka, wycieki danych, e-commerce dataLayer) w `analytics/`. W audycie SEO kod (Playwright + axe-core + Lighthouse) ocenia stronę i generuje raport Markdown, który agent wdrażający poprawki może przyjąć jako wsad. Projekt powstał jako nauka Claude Code (MCP, skile, hooki, agenci) — stąd wariant LLM i notatki w `docs/`.
 
 ## Jak uruchomić audyt
 
@@ -12,6 +12,16 @@ npm run audit -- https://pmdata.pl/              # albo w sesji: /audit https://
 ```
 
 Raport: `reports/<host>-<data>.md` (strona startowa + do 9 adresów z sitemapy). Kod wyjścia: 0 = PASS, 1 = FAIL, 2 = błąd uruchomienia. Testy reguł: `npm test`. W sesji `/audit <url>` agent `auditor` dopisuje krytyczną ocenę `reports/<host>-<data>.review.md` — opartą wyłącznie na raporcie (pilnują tego hooki).
+
+Pasywny audyt analityki i prywatności (Python, uv) — szczegóły w [`analytics/README.md`](analytics/README.md):
+
+```
+cd analytics
+uv sync && uv run playwright install chromium   # jednorazowo
+uv run audit.py https://example.com --slug example   # albo w sesji: /analytics-audit <url> <firma>
+```
+
+Raport: `reports/analytics/<data>-<firma>/RAPORT.md` z planszami dowodowymi i surowym ruchem w `raw/` — folder w `.gitignore`, raporty zostają lokalnie. Testy: `uv run python -m unittest test_audit.py`.
 
 Wariant LLM (niedeterministyczny, do nauki):
 
@@ -25,6 +35,9 @@ Wariant LLM (niedeterministyczny, do nauki):
 
 ```
 web-audit/
+│
+├── analytics/                       # audyt analityki i prywatności (Python): audit.py, evidence.py,
+│                                    # test_audit.py, report_template.md, pyproject.toml
 │
 ├── audit/                           # deterministyczny audyt: run.mjs (przeglądarka, Lighthouse, zapis),
 │                                    # lib.mjs (reguły SEO, mapowanie axe/Lighthouse, render), lib.test.mjs

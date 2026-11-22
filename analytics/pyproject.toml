@@ -1,0 +1,6 @@
+[project]
+name = "analytics"
+version = "0.1.0"
+description = "Pasywne audyty wdrożenia analityki i prywatności na stronach WWW"
+requires-python = ">=3.11"
+dependencies = ["playwright"]
