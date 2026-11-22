@@ -142,9 +142,9 @@ PRIVACY_LINKS_JS = """() => Array.from(document.querySelectorAll('a[href]'))
   .map(a => ({text: (a.innerText || a.getAttribute('aria-label') || '').trim().slice(0, 80), href: a.href}))
   .filter(l => /prywatno|privacy|cookie|rodo|gdpr|dane osobowe|polityk/i.test(l.text + ' ' + l.href))"""
 
-# Kontener banera = najbliższy przodek fixed/sticky. Przycisk w formularzu albo typu submit → null (nie klikamy).
+# Kontener banera = najbliższy przodek fixed/sticky. Przycisk w formularzu (także spoza niego przez atrybut form="id") albo typu submit → null (nie klikamy).
 BANNER_OF_JS = """el => {
-  if (el.closest('form') || (el.getAttribute('type') || '').toLowerCase() === 'submit') return null;
+  if (el.closest('form') || el.form || (el.getAttribute('type') || '').toLowerCase() === 'submit') return null;
   let n = el;
   while (n && n !== document.body) {
     const p = getComputedStyle(n).position;

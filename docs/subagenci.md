@@ -62,7 +62,7 @@ Zweryfikuj `/mcp` w sesji — pozycja `playwright` powinna być `connected`. **U
       "Bash(curl -s https://*)",
       "Bash(mkdir -p *)",
       "WebFetch(https://ntfy.pl/*)",
-      "Write(/Users/p/Documents/dev/Claude-Code-SEO/reports/*)",
+      "Edit(/audit-seo/reports/**)",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_snapshot",
       "mcp__playwright__browser_evaluate",

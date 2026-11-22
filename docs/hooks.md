@@ -18,7 +18,7 @@ Hooki to skrypty powłoki uruchamiane automatycznie przez Claude Code w reakcji 
   "PostToolUse": [
     {
       "matcher": "Bash",
-      "hooks": [{ "type": "command", "command": "hooks/on-git-push.sh" }]
+      "hooks": [{ "type": "command", "command": "\"${CLAUDE_PROJECT_DIR}\"/hooks/on-git-push.sh" }]
     }
   ]
 }
