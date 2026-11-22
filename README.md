@@ -1,8 +1,19 @@
-# seo-audit-with-mcp-playwright
+# web-audit
 
 Projekt nauki Claude Code zbudowany wokół konkretnego zadania: **automatyczny audyt SEO strony https://ntfy.pl/** przy użyciu MCP (Model Context Protocol) i Playwright do kontroli przeglądarki Chrome.
 
 ## Jak uruchomić audyt
+
+Deterministyczny audyt SEO i dostępności (Playwright + axe-core + Lighthouse, wyniki 0–100) dowolnej strony:
+
+```
+npm install && npx playwright install chromium   # jednorazowo
+npm run audit -- https://pmdata.pl/              # albo w sesji: /audit https://pmdata.pl/
+```
+
+Raport: `reports/<host>-<data>.md`. Kod wyjścia: 0 = PASS, 1 = FAIL, 2 = błąd uruchomienia. Testy reguł: `npm test`.
+
+Wariant LLM (niedeterministyczny, do nauki):
 
 ```
 /seo-audit

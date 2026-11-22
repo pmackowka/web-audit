@@ -26,6 +26,6 @@ Odpowiadasz na pytania edukacyjne dotyczące:
 
 ## Kontekst projektu
 
-Projekt: `~/Documents/dev/Claude-Code-SEO`
+Projekt: `~/Documents/dev/web-audit`
 Cel: nauka Claude Code przez audyty SEO strony ntfy.pl
 Pliki konfiguracyjne: `.claude/settings.json`, `.claude/agents/`, `.claude/skills/`, `docs/`
