@@ -1,6 +1,6 @@
 # web-audit
 
-Projekt nauki Claude Code zbudowany wokół konkretnego zadania: **automatyczny audyt SEO strony https://ntfy.pl/** przy użyciu MCP (Model Context Protocol) i Playwright do kontroli przeglądarki Chrome.
+Deterministyczny audyt SEO i dostępności (WCAG) dowolnej strony. Kod (Playwright + axe-core + Lighthouse) ocenia stronę i generuje raport Markdown, który agent wdrażający poprawki może przyjąć jako wsad. Projekt powstał jako nauka Claude Code (MCP, skile, hooki, agenci) — stąd wariant LLM i notatki w `docs/`.
 
 ## Jak uruchomić audyt
 
@@ -24,17 +24,22 @@ Wariant LLM (niedeterministyczny, do nauki):
 ## Struktura projektu
 
 ```
-Claude-Code/
+web-audit/
 │
+├── audit/                           # deterministyczny audyt: run.mjs (przeglądarka, Lighthouse, zapis),
+│                                    # lib.mjs (reguły SEO, mapowanie axe/Lighthouse, render), lib.test.mjs
+├── package.json                     # zależności: playwright, @axe-core/playwright, lighthouse; skrypty audit/test
+├── .mcp.json                        # rejestracja serwera MCP Playwright (dla wariantu LLM)
 ├── CLAUDE.md                        # instrukcje dla Claude — wczytywane automatycznie na starcie każdej sesji
 ├── README.md                        # ten plik — mapa projektu dla człowieka
 │
 ├── .claude/
-│   ├── settings.json                # ← tu jest cała konfiguracja projektu:
-│   │                                #   • MCP: rejestracja serwera Playwright (npx @playwright/mcp@latest)
-│   │                                #   • env: AUDIT_URL=https://ntfy.pl/ — zmień tu, żeby audytować inną stronę
+│   ├── settings.json                # konfiguracja sesji Claude Code:
+│   │                                #   • env: AUDIT_URL — domyślny adres dla /seo-audit
 │   │                                #   • hooks: rejestracja skryptu on-git-push.sh
 │   │                                #   • permissions: lista dozwolonych/blokowanych operacji
+│   │
+│   ├── skills/audit/SKILL.md        # /audit <url> — uruchamia npm run audit, bez interpretacji modelu
 │   │
 │   └── commands/
 │       └── seo-audit.md             # komenda /seo-audit — profesjonalny framework audytu SEO v2.0
@@ -48,29 +53,17 @@ Claude-Code/
 │   └── on-git-push.sh               # uruchamiany przez Claude Code po wywołaniu narzędzia Bash (PostToolUse)
 │                                    # wysyła natywne powiadomienie macOS gdy Claude wykona git push
 │
-└── reports/                         # wygenerowane raporty SEO w formacie Markdown
-                                     # każdy audyt tworzy: ntfy-pl-YYYY-MM-DD.md
+└── reports/                         # raporty Markdown: <host>-YYYY-MM-DD.md (np. pmdata-pl-2026-11-22.md)
 ```
 
 ---
 
 ## Konfiguracja `settings.json` — linia po linii
 
-Plik `.claude/settings.json` to centralny punkt konfiguracji projektu. Poniżej każda linijka z wyjaśnieniem (styl JSONC — `//` to komentarze, nie są częścią prawdziwego pliku JSON):
+Plik `.claude/settings.json` konfiguruje sesję Claude Code; serwery MCP są osobno w `.mcp.json`. Poniżej skrót z wyjaśnieniem (styl JSONC — `//` to komentarze, nie są częścią prawdziwego pliku JSON):
 
 ```jsonc
 {
-  // ── MCP SERVERS ──────────────────────────────────────────────────────────
-  // Rejestracja zewnętrznych serwerów MCP (Model Context Protocol).
-  // Claude Code odpala je jako osobne procesy i komunikuje się przez stdio.
-  "mcpServers": {
-    "playwright": {                          // nazwa serwera — używana wewnętrznie
-      "command": "npx",                      // program do uruchomienia serwera
-      "args": ["@playwright/mcp@latest"]     // pakiet MCP dla Playwright (zawsze najnowszy)
-                                             // dodaj "--headed" żeby widzieć okno przeglądarki
-    }
-  },
-
   // ── PERMISSIONS ──────────────────────────────────────────────────────────
   // Kontrola nad tym, o co Claude Code pyta użytkownika przed wykonaniem akcji.
   "permissions": {
@@ -103,7 +96,7 @@ Plik `.claude/settings.json` to centralny punkt konfiguracji projektu. Poniżej 
   // ── ENV ──────────────────────────────────────────────────────────────────
   // Zmienne środowiskowe dostępne w sesjach Claude Code i w plikach komend slash.
   "env": {
-    "AUDIT_URL": "https://ntfy.pl/"  // URL audytowanej strony — użyj $AUDIT_URL w komendach
+    "AUDIT_URL": "https://pmdata.pl/"  // URL audytowanej strony — użyj $AUDIT_URL w komendach
                                      // zmień tę wartość, żeby audytować inną stronę
   }
 }
@@ -113,8 +106,16 @@ Plik `.claude/settings.json` to centralny punkt konfiguracji projektu. Poniżej 
 
 ## Jak to działa
 
-1. Claude Code startuje sesję → wczytuje `CLAUDE.md` i `settings.json`
-2. `settings.json` rejestruje serwer MCP Playwright → Claude ma dostęp do przeglądarki
+Wariant deterministyczny (`/audit <url>` albo `npm run audit -- <url>`):
+
+1. `audit/run.mjs` otwiera stronę w Chromium (Playwright) i zbiera fakty SEO (title, meta, canonical, H1, robots.txt, sitemap, JSON-LD).
+2. axe-core sprawdza reguły WCAG 2.x A/AA, Lighthouse liczy wyniki SEO i Accessibility 0–100.
+3. `audit/lib.mjs` zamienia wyniki na listę problemów (id reguły, opis, naprawa, selektor + HTML) i renderuje raport do `reports/`.
+
+Wariant LLM (`/seo-audit`):
+
+1. Claude Code startuje sesję → wczytuje `CLAUDE.md`, `settings.json` i `.mcp.json`
+2. `.mcp.json` rejestruje serwer MCP Playwright → Claude ma dostęp do przeglądarki
 3. Wpisujesz `/seo-audit` → Claude dostaje instrukcje z `.claude/commands/seo-audit.md`
 4. Claude otwiera `$AUDIT_URL` przez Playwright → czyta DOM, sprawdza wszystkie elementy SEO
 5. Zapisuje raport do `reports/` → hook `on-git-push.sh` wysyła powiadomienie macOS gdy zmiany trafią na remote
@@ -168,7 +169,7 @@ Audytowana strona: $AUDIT_URL
 
 ```json
 "env": {
-  "AUDIT_URL": "https://ntfy.pl/"
+  "AUDIT_URL": "https://pmdata.pl/"
 }
 ```
 
@@ -223,7 +224,7 @@ Kluczowe różnice vs. komenda:
 | Sposób | Przykład | Efekt |
 |--------|----------|-------|
 | `@`-mention | `@seo-specialist /seo-audit` | Agent + komenda — najpełniejszy przekaz |
-| `@`-mention + opis | `@seo-specialist sprawdź SEO ntfy.pl` | Agent sam decyduje co zrobić |
+| `@`-mention + opis | `@seo-specialist sprawdź SEO pmdata.pl` | Agent sam decyduje co zrobić |
 | Natural language | *"Użyj seo-specialist do audytu"* | Claude decyduje czy delegować |
 | CLI flag | `claude --agent seo-specialist` | Cała sesja działa jako ten agent |
 | Ustawienie stałe | `"agent": "seo-specialist"` w settings.json | Domyślny agent dla projektu |
@@ -242,13 +243,13 @@ Przy starcie sesji. Jeśli dodajesz/edytujesz plik `.claude/agents/*.md` — **z
 
 ### Co to jest MCP?
 
-MCP (Model Context Protocol) to protokół, który pozwala Claude Code korzystać z zewnętrznych narzędzi — tu: z przeglądarki Chrome przez Playwright. Konfiguracja w `settings.json` startuje serwer MCP jako osobny proces (`npx @playwright/mcp@latest`), a Claude komunikuje się z nim przez standardowe wejście/wyjście (stdio).
+MCP (Model Context Protocol) to protokół, który pozwala Claude Code korzystać z zewnętrznych narzędzi — tu: z przeglądarki Chrome przez Playwright. Konfiguracja w `.mcp.json` startuje serwer MCP jako osobny proces (`@playwright/mcp`), a Claude komunikuje się z nim przez standardowe wejście/wyjście (stdio).
 
 ### Headless vs. widoczna przeglądarka
 
 **Domyślnie przeglądarka NIE jest widoczna** — Playwright uruchamia Chromium w trybie headless (bez GUI). Claude otwiera strony, czyta ich zawartość i wykonuje akcje, ale nie zobaczysz żadnego okna przeglądarki na ekranie.
 
-Żeby przeglądarka była widoczna, trzeba uruchomić MCP z flagą `--headed`:
+Żeby przeglądarka była widoczna, trzeba uruchomić MCP z flagą `--headed` w `.mcp.json`:
 
 ```json
 "mcpServers": {
@@ -290,7 +291,7 @@ Claude Code
     │
     │  analizuje dane, formułuje wyniki SEO
     ▼
-reports/ntfy-pl-YYYY-MM-DD.md
+reports/pmdata-pl-YYYY-MM-DD.md
 ```
 
 ### Kiedy używać `--headed`?

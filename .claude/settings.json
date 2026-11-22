@@ -30,6 +30,6 @@
     ]
   },
   "env": {
-    "AUDIT_URL": "https://ntfy.pl/"
+    "AUDIT_URL": "https://pmdata.pl/"
   }
 }
