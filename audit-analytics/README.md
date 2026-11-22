@@ -39,7 +39,8 @@ Plansze są renderowane z przechwyconego ruchu, a nie zrzucane z DevTools — dz
 
 `reports/RRRR-MM-DD-<firma>/RAPORT.md` (raport i plansze w repo, `raw/` w `.gitignore`):
 - **Faza przed/po** — żądanie wysłane przed/po kliknięciu w baner. Tag analityczny w B/„po” = odpala mimo odmowy.
-- **gcs** — `G1xy`: x = ad_storage, y = analytics_storage (1 granted, 0 denied).
+- **Tryb Consent Mode (sekcja 2)** — [podstawowy](https://developers.google.com/tag-platform/security/concepts/consent-mode): zero żądań GA4 przed zgodą; zaawansowany: przed zgodą idą pingi z `gcs` denied. Kontrole: `consent default` z `ad_storage`, `analytics_storage`, `ad_user_data`, `ad_personalization` (denied), `wait_for_update`, `consent update` po akceptacji, `gcs` po odrzuceniu (B) i akceptacji (C).
+- **gcs** — `G1xy`: x = ad_storage, y = analytics_storage (1 granted, 0 denied). `gcd` idzie zawsze, więc nie świadczy o Consent Mode.
 - **E-commerce (sekcja 10)** — pushe `ecommerce` w dataLayer vs [referencja zdarzeń GA4](https://developers.google.com/analytics/devguides/collection/ga4/reference/events): format UA zamiast `items`, produkty bez `item_id`/`item_name`, liczby jako tekst, `value` bez `currency`, `value` ≠ suma price×quantity, brak `transaction_id`, brak `ecommerce: null`, zdarzenie bez żądania GA4 albo żądanie GA4 bez produktów (`pr1…`). Walidowany przebieg C (po akceptacji), a bez niego A.
 - **Wycieki** — token z URL, e-mail lub telefon w URL, Refererze albo body żądania do obcej domeny.
 - Tokeny i dane osobowe w raporcie są zamaskowane (`abcd…`). Surowe dane zostają lokalnie w `raw/` (w `.gitignore`).

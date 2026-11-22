@@ -17,7 +17,7 @@ $passes
 
 $consent
 
-<!-- DO UZUPEŁNIENIA: ocena — czy CMP blokuje tagi przed zgodą i po odrzuceniu (porównaj A/B/C), czy Consent Mode v2 działa (default denied → update). -->
+<!-- DO UZUPEŁNIENIA: ocena — czy CMP blokuje tagi przed zgodą i po odrzuceniu (porównaj A/B/C); potwierdź albo skoryguj automatyczny tryb Consent Mode i jego kontrole na podstawie raw/. -->
 
 ## 3. Tagi
 

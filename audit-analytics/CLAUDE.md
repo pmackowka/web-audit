@@ -19,7 +19,7 @@ Pasywny audyt wdrożenia analityki i prywatności dowolnej strony: tagi, Consent
 5. Uzupełnij bloki `<!-- DO UZUPEŁNIENIA -->`:
    - **Podsumowanie:** 5 znalezisk, waga (wysoka/średnia/niska), konkretna poprawka, odwołanie do zrzutu/sekcji.
    - **E-commerce (sekcja 10):** strona bez sprzedaży (portal, SaaS, rekrutacja) → zastąp treść sekcji zdaniem „Nie dotyczy — strona nie prowadzi sprzedaży.” i nie używaj `--extra-url`. Sklep → sprawdź każde zgłoszenie w `raw/<C|A>/datalayer.json`; najpoważniejsze problemy przenieś do podsumowania.
-   - **Zgody:** czy tagi odpalają przed zgodą (A) i po odrzuceniu (B, faza „po”); czy Consent Mode v2 ma `default` denied i `update` po kliknięciu.
+   - **Zgody:** czy tagi odpalają przed zgodą (A) i po odrzuceniu (B, faza „po”). Tryb Consent Mode (podstawowy/zaawansowany) i kontrole v2 (`default` z 4 parametrami denied, `update` po akceptacji, `gcs` w B i C) liczy kod — zweryfikuj je w `raw/`, nie wyznaczaj od nowa.
    - **Wnioski RODO / art. 399 PKE** (przechowywanie informacji i dostęp do nich w urządzeniu końcowym — cookies, localStorage): tylko fakty i potencjalne ryzyka, bez kwalifikacji prawnej („może”, „ryzyko”, nigdy „narusza”).
 6. Kontrola maskowania: `grep -rn "<pełny token>" reports/<data>-<firma>/RAPORT.md` musi być pusty; obejrzyj zrzuty pod kątem tokenów i danych osobowych.
 7. Testy parserów: `uv run python -m unittest test_audit.py`.

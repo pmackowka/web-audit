@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 from audit import (EMAIL_RE, check_privacy, find_consent_buttons, find_secrets, ga4_hits, har_entries, leak_hits,
-                   load_passes, make_masker, validate_ecommerce)
+                   load_passes, make_masker, validate_ecommerce, classify_consent)
 from evidence import _snippets
 
 JWT = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4In0.c2lnbmF0dXJl"
@@ -105,6 +105,29 @@ class AuditParsers(unittest.TestCase):
         self.assertIn(("begin_checkout", "brak `value` (zalecane do raportowania)"), problems)
         self.assertFalse(any(r[1] == "refund" and "items" in r[2] for r in rows))
         self.assertFalse(any(r[1] == "view_item" and "ecommerce: null" in r[2] for r in rows))
+
+
+    def test_classify_consent_modes(self):
+        v2 = {"ad_storage": "denied", "analytics_storage": "denied", "ad_user_data": "denied", "ad_personalization": "denied"}
+        def p(cmds=(), **hits):  # hits: przed=[gcs…], po=[gcs…]; None = żądanie bez gcs
+            return {"datalayer": [{"datalayer": [list(c) for c in cmds]}],
+                    "ga4": [{"phase": ph, "params": {} if g is None else {"gcs": g}} for ph, gs in hits.items() for g in gs]}
+        grant = ["consent", "update", {k: "granted" for k in v2}]
+        # Zaawansowany i poprawny: pingi denied przed zgodą, granted po akceptacji.
+        mode, rows = classify_consent({"A": p([["consent", "default", v2]], przed=["G100"]),
+                                       "B": p([["consent", "default", v2]], przed=["G100"], po=["G100"]),
+                                       "C": p([["consent", "default", v2], grant], przed=["G100"], po=["G111"])})
+        self.assertEqual(mode, "zaawansowany")
+        self.assertEqual([r[2] for r in rows], ["info"])
+        # Podstawowy: zero GA4 przed zgodą; odpalenie po odrzuceniu = błąd.
+        mode, rows = classify_consent({"A": p(), "B": p(po=["G100"]), "C": p([grant], po=["G111"])})
+        self.assertEqual(mode, "podstawowy")
+        self.assertTrue(any("mimo odmowy" in r[1] for r in rows))
+        # Default bez parametrów v2 i z granted; brak CM w ogóle.
+        mode, rows = classify_consent({"A": p([["consent", "default", {"ad_storage": "denied", "analytics_storage": "granted"}]], przed=["G101"])})
+        self.assertEqual(mode, "zaawansowany z błędem stanu domyślnego")
+        self.assertTrue(any("ad_user_data" in r[1] for r in rows) and any("granted" in r[1] for r in rows))
+        self.assertEqual(classify_consent({"A": p(przed=[None])})[0], "brak Consent Mode")
 
 
 class BrowserSafety(unittest.TestCase):

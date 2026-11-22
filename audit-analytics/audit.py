@@ -588,6 +588,78 @@ def expiry(c, now) -> str:
     return f"{days:.0f} dni" if days >= 1 else f"{days * 24:.1f} h"
 
 
+# Consent Mode — tryb wg https://developers.google.com/tag-platform/security/concepts/consent-mode:
+# podstawowy = tagi zablokowane do zgody (zero żądań GA4 przed kliknięciem), zaawansowany = tagi ładują się
+# z domyślnym denied i wysyłają pingi bez cookies (gcs z analytics_storage=0). gcd idzie zawsze, więc nie świadczy o CM.
+CONSENT_V2_KEYS = ("ad_storage", "analytics_storage", "ad_user_data", "ad_personalization")
+
+
+def _consent_cmds(p: dict, kind: str) -> list[dict]:
+    """Parametry komend gtag('consent', kind, {...}) ze wszystkich zrzutów dataLayer przebiegu."""
+    return [e[2] for pg in p["datalayer"] for e in pg["datalayer"] or []
+            if isinstance(e, list) and len(e) > 2 and e[:2] == ["consent", kind] and isinstance(e[2], dict)]
+
+
+def _analytics_denied(gcs: str | None) -> bool | None:
+    """gcs=G1xy: y = analytics_storage (1 granted, 0 denied); None, gdy parametru brak lub ma inny format."""
+    return gcs[3] == "0" if gcs and re.fullmatch(r"G1[01]{2}", gcs) else None
+
+
+def classify_consent(passes: dict) -> tuple[str, list[list]]:
+    """Ustala tryb Consent Mode z przebiegów A/B/C i zwraca (tryb, [[kontrola, wynik, waga], …])."""
+    rows = []
+    def add(check, result, weight):
+        rows.append([check, result, weight])
+
+    hits = {(m, ph): [h["params"] for h in p["ga4"] if h["phase"] == ph] for m, p in passes.items() for ph in ("przed", "po")}
+    defaults = [d for p in passes.values() for d in _consent_cmds(p, "default")]
+    any_gcs = any(h.get("gcs") for hs in hits.values() for h in hs)
+    if not any(hits.values()):
+        return "nie dotyczy — brak żądań GA4", rows
+    a_before = hits[("A", "przed")]
+    if not defaults and not any_gcs:
+        if a_before:
+            add("Consent Mode", "brak komend `consent` i parametru `gcs` — GA4 wysyła pełne dane przed zgodą", "wysoka")
+        return "brak Consent Mode", rows
+
+    if not a_before:
+        mode = "podstawowy" if hits.get(("C", "po")) else "nieustalony — brak żądań GA4 przed zgodą i brak przebiegu C"
+    else:
+        denied = [_analytics_denied(h.get("gcs")) for h in a_before]
+        mode = "zaawansowany" if all(d is True for d in denied) else "zaawansowany z błędem stanu domyślnego"
+        if any(d is False for d in denied):
+            add("Stan przed zgodą (A)", "GA4 wysyła `analytics_storage` granted przed decyzją użytkownika", "wysoka")
+        if any(d is None for d in denied):
+            add("Stan przed zgodą (A)", "część żądań GA4 bez `gcs` — tag odpalił przed `consent default`", "wysoka")
+
+    if not defaults:
+        add("`consent default`", "nie wykryto w dataLayer", "średnia")
+    for d in defaults[:1]:
+        missing = [k for k in CONSENT_V2_KEYS if k not in d]
+        if missing:
+            add("`consent default` — parametry v2", "brak: " + ", ".join(f"`{k}`" for k in missing), "wysoka")
+        granted = [k for k in CONSENT_V2_KEYS if d.get(k) == "granted"]
+        if granted:
+            add("`consent default` — wartości", "domyślnie granted: " + ", ".join(f"`{k}`" for k in granted), "wysoka")
+        add("`wait_for_update`", f"{d['wait_for_update']} ms" if "wait_for_update" in d else "brak", "info")
+
+    if "B" in passes:
+        b_after = hits[("B", "po")]
+        if mode == "podstawowy" and b_after:
+            add("Po odrzuceniu (B)", "tryb podstawowy, a GA4 wysyła żądania mimo odmowy", "wysoka")
+        if any(_analytics_denied(h.get("gcs")) is False for h in b_after):
+            add("Po odrzuceniu (B)", "GA4 wysyła `analytics_storage` granted mimo odmowy", "wysoka")
+    if "C" in passes:
+        updates = _consent_cmds(passes["C"], "update")
+        if not updates:
+            add("Po akceptacji (C)", "brak `consent update` w dataLayer", "średnia")
+        elif missing := [k for k in CONSENT_V2_KEYS if updates[-1].get(k) != "granted"]:
+            add("Po akceptacji (C)", "`consent update` nie przyznaje: " + ", ".join(f"`{k}`" for k in missing), "średnia")
+        if any(_analytics_denied(h.get("gcs")) is True for h in hits[("C", "po")]):
+            add("Po akceptacji (C)", "GA4 nadal wysyła `analytics_storage` denied", "wysoka")
+    return mode, rows
+
+
 def md_table(header: list[str], rows: list[list]) -> str:
     if not rows:
         return "_brak_"
@@ -640,8 +712,10 @@ def build_report(url, slug, passes, secrets, evidence) -> str:
                           if r["phase"] == ph and classify(r["url"])[2] in TRACKING)
             if cnt:
                 track_rows.append([m, ph, "; ".join(f"{t} ×{n}" for t, n in cnt.most_common())])
+    cm_mode, cm_rows = classify_consent(passes)
     v["consent"] = "\n\n".join([
         f"- CMP: {', '.join(sorted(set(filter(None, cmp_found)))) or 'nie wykryto'}; IAB TCF (`__tcfapi`): {'tak' if tcf else 'nie'}.",
+        f"**Tryb Consent Mode (automatycznie): {cm_mode}**\n\n" + md_table(["Kontrola", "Wynik", "Waga"], cm_rows),
         "**Komendy `gtag('consent', …)` w dataLayer**\n\n" + md_table(["Przebieg", "Komenda"], consent_cmds),
         "**Parametry Consent Mode w żądaniach GA4** (faza = przed/po kliknięciu w baner)\n\n"
         + md_table(["Przebieg", "Faza", "gcs", "gcd", "Zdarzenia GA4"], gcs_rows),
