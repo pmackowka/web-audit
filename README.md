@@ -11,7 +11,7 @@ npm install && npx playwright install chromium   # jednorazowo
 npm run audit -- https://pmdata.pl/              # albo w sesji: /audit https://pmdata.pl/
 ```
 
-Raport: `reports/<host>-<data>.md`. Kod wyjścia: 0 = PASS, 1 = FAIL, 2 = błąd uruchomienia. Testy reguł: `npm test`.
+Raport: `reports/<host>-<data>.md` (strona startowa + do 9 adresów z sitemapy). Kod wyjścia: 0 = PASS, 1 = FAIL, 2 = błąd uruchomienia. Testy reguł: `npm test`. W sesji `/audit <url>` agent `auditor` dopisuje krytyczną ocenę `reports/<host>-<data>.review.md` — opartą wyłącznie na raporcie (pilnują tego hooki).
 
 Wariant LLM (niedeterministyczny, do nauki):
 
@@ -39,7 +39,8 @@ web-audit/
 │   │                                #   • hooks: rejestracja skryptu on-git-push.sh
 │   │                                #   • permissions: lista dozwolonych/blokowanych operacji
 │   │
-│   ├── skills/audit/SKILL.md        # /audit <url> — uruchamia npm run audit, bez interpretacji modelu
+│   ├── agents/auditor.md            # niezależny, krytyczny audytor: uruchamia audyt, pisze *.review.md; hooki we frontmatterze
+│   ├── skills/audit/SKILL.md        # /audit <url> — context: fork, agent: auditor (osobny kontekst na każdą domenę)
 │   │
 │   └── commands/
 │       └── seo-audit.md             # komenda /seo-audit — profesjonalny framework audytu SEO v2.0
@@ -52,8 +53,10 @@ web-audit/
 ├── hooks/
 │   └── on-git-push.sh               # uruchamiany przez Claude Code po wywołaniu narzędzia Bash (PostToolUse)
 │                                    # wysyła natywne powiadomienie macOS gdy Claude wykona git push
+│   ├── audit-guard.sh               # PreToolUse auditora: tylko `npm run audit -s -- <url>` i zapis *.review.md
+│   └── check-review.sh              # Stop auditora: ocena musi istnieć i cytować tylko id z raportu
 │
-└── reports/                         # raporty Markdown: <host>-YYYY-MM-DD.md (np. pmdata-pl-2026-11-22.md)
+└── reports/                         # <host>-YYYY-MM-DD.md (raport z kodu) + <host>-YYYY-MM-DD.review.md (ocena modelu)
 ```
 
 ---
@@ -108,9 +111,11 @@ Plik `.claude/settings.json` konfiguruje sesję Claude Code; serwery MCP są oso
 
 Wariant deterministyczny (`/audit <url>` albo `npm run audit -- <url>`):
 
-1. `audit/run.mjs` otwiera stronę w Chromium (Playwright) i zbiera fakty SEO (title, meta, canonical, H1, robots.txt, sitemap, JSON-LD).
-2. axe-core sprawdza reguły WCAG 2.x A/AA, Lighthouse liczy wyniki SEO i Accessibility 0–100.
-3. `audit/lib.mjs` zamienia wyniki na listę problemów (id reguły, opis, naprawa, selektor + HTML) i renderuje raport do `reports/`.
+1. `audit/run.mjs` otwiera stronę startową i do 9 adresów z sitemapy w Chromium (Playwright) i zbiera fakty SEO (title, meta, canonical, H1, JSON-LD, linki).
+2. Na każdej stronie axe-core sprawdza reguły WCAG 2.x A/AA, Lighthouse liczy wyniki SEO, Accessibility i Best Practices 0–100.
+3. Reguły serwisu: robots.txt, sitemap, duplikaty title/description, do 100 linków wewnętrznych (statusy HTTP).
+4. `audit/lib.mjs` grupuje ten sam problem z wielu stron (wspólny komponent), dodaje id reguły, naprawę, selektor + HTML i renderuje raport do `reports/`.
+5. Przy `/audit <url>` agent `auditor` czyta raport i zapisuje krytyczną ocenę `*.review.md`; `audit-guard.sh` blokuje mu edycję raportu, `check-review.sh` odrzuca id spoza raportu.
 
 Wariant LLM (`/seo-audit`):
 

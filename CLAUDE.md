@@ -15,10 +15,11 @@ Folder lokalny: `~/Documents/dev/web-audit` | Repo: `github.com/pmackowka/web-au
 | `package.json` | Zależności (`playwright`, `@axe-core/playwright`, `lighthouse`) i skrypty `npm run audit`, `npm test`. |
 | `.claude/settings.json` | Konfiguracja sesji: MCP serwer Playwright, uprawnienia, hooki, zmienna `AUDIT_URL`. |
 | `.claude/commands/` | Komendy slash: `/seo-audit` (pełny audyt SEO), `/summarize` (podsumowanie sesji). |
-| `.claude/skills/` | Skile: `/audit <url>` (deterministyczny audyt SEO + a11y), `/audit-subpages` (równoległy audyt podstron), `/compare-reports` (porównanie raportów). |
+| `.claude/agents/auditor.md` | Agent `auditor`: uruchamia audyt i pisze krytyczną ocenę `*.review.md` opartą wyłącznie na raporcie; hooki we frontmatterze. |
+| `.claude/skills/` | Skile: `/audit <url>` (audyt w osobnym kontekście agenta `auditor`), `/audit-subpages` (równoległy audyt podstron), `/compare-reports` (porównanie raportów). |
 | `docs/` | Notatki z nauki — jeden plik Markdown na temat. |
-| `hooks/` | Skrypty hooków. `on-git-push.sh` wysyła powiadomienie macOS gdy Claude wykona `git push`. |
-| `reports/` | Wygenerowane raporty SEO w formacie Markdown. |
+| `hooks/` | `on-git-push.sh` (powiadomienie macOS po `git push`), `audit-guard.sh` (auditor może tylko uruchomić audyt i zapisać `*.review.md`), `check-review.sh` (ocena musi cytować tylko id z raportu). |
+| `reports/` | `<host>-<data>.md` — raport z kodu (deterministyczny); `<host>-<data>.review.md` — ocena audytora (model). |
 
 ## Jak uruchomić audyt
 
@@ -29,7 +30,9 @@ npm install && npx playwright install chromium   # jednorazowo
 npm run audit -- https://pmdata.pl/
 ```
 
-Raport trafia do `reports/<host>-<data>.md`. Kod wyjścia: 0 = PASS, 1 = FAIL (są błędy), 2 = audyt się nie wykonał. Ten sam stan strony daje identyczny raport. Zakres: jedna strona; axe wykrywa tylko część problemów WCAG.
+Raport trafia do `reports/<host>-<data>.md`. Kod wyjścia: 0 = PASS, 1 = FAIL (są błędy), 2 = audyt się nie wykonał. Zakres: strona startowa + do 9 adresów z sitemapy (Lighthouse SEO / Accessibility / Best Practices, axe WCAG 2.x A/AA), robots.txt, sitemap, duplikaty title/description, do 100 linków wewnętrznych. Ten sam stan strony daje identyczny raport; strony dynamiczne (karuzele, lazy-load) mogą się różnić między uruchomieniami.
+
+`/audit <url>` uruchamia to samo w osobnym kontekście agenta `auditor`, który dopisuje krytyczną ocenę do `reports/<host>-<data>.review.md`. Fakty są tylko w raporcie; hooki blokują modelowi edycję raportu i odrzucają ocenę cytującą id spoza raportu.
 
 Wariant LLM (niedeterministyczny, do nauki): `/seo-audit` — Claude przechodzi przez checklistę z `.claude/commands/seo-audit.md` dla `$AUDIT_URL`.
 
