@@ -1,6 +1,6 @@
 ---
 name: compare-reports
-description: Porównuje dwa raporty z audytu SEO z folderu reports/, żeby śledzić poprawki i regresje w czasie. Użyj gdy użytkownik mówi "porównaj raporty", "co się zmieniło w SEO", "czy SEO się poprawiło", "różnice między audytami", "trendy SEO", lub pyta co się zmieniło między dwoma audytami.
+description: Porównuje dwa raporty z audytu SEO z folderu audit-seo/reports/, żeby śledzić poprawki i regresje w czasie. Użyj gdy użytkownik mówi "porównaj raporty", "co się zmieniło w SEO", "czy SEO się poprawiło", "różnice między audytami", "trendy SEO", lub pyta co się zmieniło między dwoma audytami.
 allowed-tools:
   - Read
   - Write
@@ -14,7 +14,7 @@ Porównaj dwa raporty z audytu SEO i wygeneruj diff — co się poprawiło, co s
 
 ## Krok 1 — Wybierz raporty do porównania
 
-1. Wylistuj pliki w `reports/` posortowane po dacie (pomijaj pliki `compare-*` i `subpages-*`)
+1. Wylistuj pliki w `audit-seo/reports/` posortowane po dacie (pomijaj pliki `compare-*` i `subpages-*`)
 2. Jeśli użytkownik podał dwa pliki lub daty — użyj ich
 3. W przeciwnym razie weź dwa najnowsze raporty automatycznie
 4. Potwierdź wybór: "Porównuję: `[plik1]` vs `[plik2]`"
@@ -57,7 +57,7 @@ Dla każdego wymiaru zanotuj wartość STARA → NOWA i sklasyfikuj:
 
 ## Krok 4 — Zapisz i wyświetl raport
 
-Zapisz do `reports/compare-YYYY-MM-DD.md` (użyj dzisiejszej daty):
+Zapisz do `audit-seo/reports/compare-YYYY-MM-DD.md` (użyj dzisiejszej daty):
 
 ```
 # Porównanie SEO: [plik1] vs [plik2]

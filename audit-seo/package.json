@@ -1,10 +1,10 @@
 {
-  "name": "web-audit",
+  "name": "audit-seo",
   "private": true,
   "type": "module",
   "scripts": {
-    "audit": "node audit/run.mjs",
-    "test": "node --test audit/*.test.mjs"
+    "audit": "node run.mjs",
+    "test": "node --test lib.test.mjs"
   },
   "dependencies": {
     "@axe-core/playwright": "4.14.0",

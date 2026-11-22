@@ -9,4 +9,4 @@ agent: auditor
 
 Przeprowadź niezależny audyt domeny: $ARGUMENTS
 
-Audytujesz tylko tę domenę. Nie korzystaj z wiedzy o innych audytach ani raportach w `reports/` — oceniasz wyłącznie raport wygenerowany w tym uruchomieniu.
+Audytujesz tylko tę domenę. Nie korzystaj z wiedzy o innych audytach ani raportach w `audit-seo/reports/` — oceniasz wyłącznie raport wygenerowany w tym uruchomieniu.

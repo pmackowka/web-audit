@@ -111,7 +111,7 @@ HAR: <code>raw/{item['mode']}/network.har</code>, wpis #{har['n'] if har else '?
 <div class="sec"><h2>General</h2>{_rows([("Request URL", r["url"].split("?")[0])] + headers, mask)}</div>
 <div class="sec"><h2>Query String Parameters</h2>{_rows(parse_qsl(urlsplit(r["url"]).query), mask)}</div>
 <div class="sec"><h2>Payload</h2>{_payload(r, mask)}</div>
-<div class="foot">Plansza wygenerowana przez analytics/audit.py z ruchu przechwyconego w Chromium (Playwright). Tokeny i dane osobowe zamaskowane.</div>
+<div class="foot">Plansza wygenerowana przez audit-analytics/audit.py z ruchu przechwyconego w Chromium (Playwright). Tokeny i dane osobowe zamaskowane.</div>
 </div>"""
 
 

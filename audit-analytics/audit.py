@@ -9,7 +9,7 @@ Trzy przebiegi tej samej strony, każdy w świeżym kontekście przeglądarki:
     C – po kliknięciu „akceptuj wszystkie”.
 B i C są pomijane, gdy w przebiegu A nie znaleziono odpowiedniego przycisku.
 
-Wynik: ../reports/analytics/RRRR-MM-DD-<firma>/ z RAPORT.md (szkic z tabelami), screenshots/ (plansze dowodowe) i raw/.
+Wynik: reports/RRRR-MM-DD-<firma>/ z RAPORT.md (szkic z tabelami), screenshots/ (plansze dowodowe) i raw/.
 Sekcje „Podsumowanie” i „Wnioski” uzupełnia człowiek albo Claude wg CLAUDE.md.
 """
 
@@ -32,7 +32,7 @@ from playwright.sync_api import sync_playwright
 from evidence import render_evidence
 
 ROOT = Path(__file__).parent
-REPORTS = ROOT.parent / "reports" / "analytics"  # wspólny folder raportów repo, poza gitem
+REPORTS = ROOT / "reports"  # raporty obok kodu modułu
 VIEWPORT = {"width": 1440, "height": 900}
 
 # Znane CMP: (nazwa, selektor „odrzuć”, selektor „akceptuj”).
@@ -784,7 +784,7 @@ def main():
     if args.rebuild:  # najnowszy istniejący audyt tej firmy, niezależnie od dzisiejszej daty
         found = sorted(REPORTS.glob(f"????-??-??-{args.slug}"))
         if not found:
-            raise SystemExit(f"Brak audytu dla slug „{args.slug}” w reports/analytics/")
+            raise SystemExit(f"Brak audytu dla slug „{args.slug}” w reports/")
         out = found[-1]
         saved = out / "raw" / "secrets.json"  # --mask z przechwycenia działa też przy rebuildzie
         secrets = sorted(set(secrets) | set(json.loads(saved.read_text()) if saved.exists() else []), key=len, reverse=True)

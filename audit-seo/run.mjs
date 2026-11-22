@@ -1,9 +1,11 @@
-// Uruchomienie: npm run audit -- https://example.com/
+// Uruchomienie (z katalogu głównego repo): npm --prefix audit-seo run audit -- https://example.com/
 // Audytuje stronę startową i kolejne adresy z sitemapy (do MAX_PAGES): fakty SEO, axe-core, Lighthouse;
-// potem reguły całego serwisu (robots.txt, sitemap, duplikaty, linki wewnętrzne) i zapis raportu Markdown do reports/.
+// potem reguły całego serwisu (robots.txt, sitemap, duplikaty, linki wewnętrzne) i zapis raportu Markdown do audit-seo/reports/.
 // Kod wyjścia: 0 = brak błędów, 1 = są błędy (status FAIL), 2 = audyt się nie wykonał.
 import { mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:net';
+import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
 import lighthouse from 'lighthouse';
@@ -133,7 +135,7 @@ async function main() {
   try {
     startUrl = new URL(process.argv[2]).href;
   } catch {
-    console.error('Użycie: npm run audit -- https://example.com/');
+    console.error('Użycie: npm --prefix audit-seo run audit -- https://example.com/');
     process.exit(2);
   }
 
@@ -218,9 +220,13 @@ async function main() {
       passed,
     });
 
-    const file = `reports/${new URL(startUrl).hostname.replaceAll('.', '-')}-${date}.md`;
-    await mkdir('reports', { recursive: true });
-    await writeFile(file, report);
+    // Raporty obok kodu (audit-seo/reports/), niezależnie od katalogu, z którego uruchomiono npm.
+    const dir = fileURLToPath(new URL('reports/', import.meta.url));
+    await mkdir(dir, { recursive: true });
+    const abs = join(dir, `${new URL(startUrl).hostname.replaceAll('.', '-')}-${date}.md`);
+    await writeFile(abs, report);
+    // Ścieżka względem katalogu wywołania (INIT_CWD ustawia npm) — tę ścieżkę czyta hook check-review.sh.
+    const file = relative(process.env.INIT_CWD ?? process.cwd(), abs);
 
     const statusLine = report.split('\n').find((l) => l.startsWith('- Status:'));
     console.log(`${file}\n${statusLine}`);

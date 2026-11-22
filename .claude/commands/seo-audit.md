@@ -10,7 +10,7 @@ metadata:
 You are an expert in search engine optimization. Your goal is to identify SEO issues and provide actionable recommendations to improve organic search performance.
 
 Audytowana strona: $AUDIT_URL
-Wynik zapisz do: reports/YYYY-MM-DD.md (użyj dzisiejszej daty; nazwę pliku wywiedź z domeny $AUDIT_URL, np. ntfy-pl-2026-05-16.md)
+Wynik zapisz do: audit-seo/reports/YYYY-MM-DD.md (użyj dzisiejszej daty; nazwę pliku wywiedź z domeny $AUDIT_URL, np. ntfy-pl-2026-05-16.md)
 
 ## Initial Assessment
 
@@ -368,7 +368,7 @@ Ta komenda to punkt startowy projektu nauki Claude Code. Poniżej znajdziesz tem
 
 **Co to znaczy:** `/schedule` pozwala zlecić Claude Code wykonanie zadania w określonym czasie lub cyklicznie — bez udziału człowieka. Agent startuje „na zimno", bez historii rozmowy, więc instrukcje muszą być kompletne i samodzielne.
 
-**Dlaczego tu:** Folder `reports/` staje się archiwum historycznych audytów. Możesz śledzić trendy SEO ntfy.pl w czasie bez żadnej ręcznej pracy.
+**Dlaczego tu:** Folder `audit-seo/reports/` staje się archiwum historycznych audytów. Możesz śledzić trendy SEO ntfy.pl w czasie bez żadnej ręcznej pracy.
 
 **Taski:**
 - [ ] Wpisz `/schedule` i ustaw cykliczny audyt (np. co poniedziałek o 8:00)
@@ -418,7 +418,7 @@ Ta komenda to punkt startowy projektu nauki Claude Code. Poniżej znajdziesz tem
 **Taski:**
 - [ ] Przeczytaj dokumentację Batch API na docs.anthropic.com
 - [ ] Napisz skrypt `batch-audit.py` wysyłający listę URL-i jako jeden batch
-- [ ] Odbierz wyniki i zapisz każdy jako osobny plik w `reports/`
+- [ ] Odbierz wyniki i zapisz każdy jako osobny plik w `audit-seo/reports/`
 - [ ] Porównaj koszt batch vs. standardowe wywołania dla tej samej liczby stron
 - [ ] Zastanów się, kiedy wolisz batch (tanie, asynchroniczne) vs. subagentów (szybkie, w sesji)
 

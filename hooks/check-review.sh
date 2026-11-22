@@ -8,12 +8,12 @@ dir="${CLAUDE_PROJECT_DIR:-$(jq -r '.cwd' <<<"$input")}"
 retry=$(jq -r '.stop_hook_active // false' <<<"$input")
 
 # Raport z końcowej odpowiedzi agenta (przy równoległych audytach najnowszy plik może należeć do innej domeny);
-# gdy odpowiedź go nie zawiera — najnowszy raport w reports/.
-named=$(jq -r '.last_assistant_message // ""' <<<"$input" | grep -oE 'reports/[a-z0-9.-]+-[0-9]{4}-[0-9]{2}-[0-9]{2}\.md' | head -1)
+# gdy odpowiedź go nie zawiera — najnowszy raport w audit-seo/reports/.
+named=$(jq -r '.last_assistant_message // ""' <<<"$input" | grep -oE 'audit-seo/reports/[a-z0-9.-]+-[0-9]{4}-[0-9]{2}-[0-9]{2}\.md' | head -1)
 if [ -n "$named" ] && [ -f "$dir/$named" ]; then
   report="$dir/$named"
 else
-  report=$(ls -t "$dir"/reports/*.md 2>/dev/null | grep -v '\.review\.md$' | head -1)
+  report=$(ls -t "$dir"/audit-seo/reports/*.md 2>/dev/null | grep -v '\.review\.md$' | head -1)
 fi
 [ -z "$report" ] && exit 0
 review="${report%.md}.review.md"

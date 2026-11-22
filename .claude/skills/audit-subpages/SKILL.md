@@ -42,7 +42,7 @@ Jeśli subagent zwrócił błąd lub nieparseable output — zanotuj to jako `"s
 
 ## Krok 4 — Wygeneruj raport zbiorczy
 
-Zapisz do `reports/subpages-YYYY-MM-DD.md` (użyj dzisiejszej daty):
+Zapisz do `audit-seo/reports/subpages-YYYY-MM-DD.md` (użyj dzisiejszej daty):
 
 ```
 # Audyt podstron ntfy.pl — [data]

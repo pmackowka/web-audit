@@ -1,11 +1,11 @@
-# analytics
+# audit-analytics
 
 Pasywny audyt wdrożenia analityki i prywatności na stronie WWW: tagi, Consent Mode v2, zgody, ciasteczka, odbiorcy danych, wycieki tokenów i danych osobowych.
 
 ## Uruchomienie
 
 ```bash
-cd analytics
+cd audit-analytics
 uv sync && uv run playwright install chromium   # raz
 uv run audit.py https://example.com --slug example [--extra-url https://example.com/kategoria --extra-url https://example.com/produkt] [--mask "Jan Kowalski"] [--headed]
 ```
@@ -37,7 +37,7 @@ Plansze są renderowane z przechwyconego ruchu, a nie zrzucane z DevTools — dz
 
 ## Jak czytać raport
 
-`reports/analytics/RRRR-MM-DD-<firma>/RAPORT.md` (raport i plansze w repo, `raw/` w `.gitignore`):
+`reports/RRRR-MM-DD-<firma>/RAPORT.md` (raport i plansze w repo, `raw/` w `.gitignore`):
 - **Faza przed/po** — żądanie wysłane przed/po kliknięciu w baner. Tag analityczny w B/„po” = odpala mimo odmowy.
 - **gcs** — `G1xy`: x = ad_storage, y = analytics_storage (1 granted, 0 denied).
 - **E-commerce (sekcja 10)** — pushe `ecommerce` w dataLayer vs [referencja zdarzeń GA4](https://developers.google.com/analytics/devguides/collection/ga4/reference/events): format UA zamiast `items`, produkty bez `item_id`/`item_name`, liczby jako tekst, `value` bez `currency`, `value` ≠ suma price×quantity, brak `transaction_id`, brak `ecommerce: null`, zdarzenie bez żądania GA4 albo żądanie GA4 bez produktów (`pr1…`). Walidowany przebieg C (po akceptacji), a bez niego A.
