@@ -7,9 +7,15 @@ input=$(cat)
 dir="${CLAUDE_PROJECT_DIR:-$(jq -r '.cwd' <<<"$input")}"
 retry=$(jq -r '.stop_hook_active // false' <<<"$input")
 
-# Raport z końcowej odpowiedzi agenta (przy równoległych audytach najnowszy plik może należeć do innej domeny);
-# gdy odpowiedź go nie zawiera — najnowszy raport w audit-seo/reports/.
-named=$(jq -r '.last_assistant_message // ""' <<<"$input" | grep -oE 'audit-seo/reports/[a-z0-9.-]+-[0-9]{4}-[0-9]{2}-[0-9]{2}\.md' | head -1)
+# Raport tego agenta (przy równoległych audytach najnowszy plik może należeć do innej domeny). Kolejność źródeł:
+# końcowa odpowiedź, potem transkrypt subagenta — od Claude Code v2.1.271 raport oddany przez SubagentHandback
+# nie trafia do last_assistant_message (https://code.claude.com/docs/en/hooks#subagentstop); na końcu najnowszy plik.
+path_re='audit-seo/reports/[a-z0-9.-]+-[0-9]{4}-[0-9]{2}-[0-9]{2}\.md'
+named=$(jq -r '.last_assistant_message // ""' <<<"$input" | grep -oE "$path_re" | head -1)
+transcript=$(jq -r '.agent_transcript_path // ""' <<<"$input")
+if [ -z "$named" ] && [ -f "$transcript" ]; then
+  named=$(grep -oE "$path_re" "$transcript" | grep -v '\.review\.md$' | tail -1)
+fi
 if [ -n "$named" ] && [ -f "$dir/$named" ]; then
   report="$dir/$named"
 else
@@ -24,9 +30,9 @@ if [ ! -f "$review" ] || [ "$review" -ot "$report" ]; then
   exit 2
 fi
 
-unknown=$(grep -oE '\b(seo|a11y|lh)-[a-z0-9-]+' "$review" | sort -u | while read -r id; do
-  grep -qF -- "$id" "$report" || echo "$id"
-done)
+# Porównanie całych id (zbiory), nie podciągów: „seo-h” nie może przejść dzięki „seo-h1” w raporcie.
+ids() { grep -oE '\b(seo|a11y|lh)-[a-z0-9-]+' "$1" | sort -u; }
+unknown=$(comm -23 <(ids "$review") <(ids "$report"))
 [ -z "$unknown" ] && exit 0
 
 if [ "$retry" = "true" ]; then

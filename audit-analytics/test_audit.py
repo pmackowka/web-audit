@@ -130,6 +130,18 @@ class AuditParsers(unittest.TestCase):
         self.assertEqual(classify_consent({"A": p(przed=[None])})[0], "brak Consent Mode")
 
 
+    def test_review_fixes_region_plus_token_globals(self):
+        # Region PL ma pierwszeństwo przed komendą bez regionu (osobno dla każdego parametru).
+        v2 = {"ad_storage": "denied", "analytics_storage": "denied", "ad_user_data": "denied", "ad_personalization": "denied"}
+        cmds = [["consent", "default", {k: "granted" for k in v2}], ["consent", "default", {**v2, "region": ["PL", "DE"]}]]
+        a = {"datalayer": [{"datalayer": cmds}], "ga4": [{"phase": "przed", "params": {"gcs": "G100"}}]}
+        mode, rows = classify_consent({"A": a})
+        self.assertEqual(mode, "zaawansowany")
+        self.assertFalse(any("granted" in r[1] for r in rows))
+        # Token z „+” po parse_qsl (spacja) nadal maskowany.
+        self.assertNotIn("cd/ef", make_masker(["ab12+cd/ef=="])("u=https://x.pl/?k=ab12 cd/ef=="))
+
+
 class BrowserSafety(unittest.TestCase):
     """Lokalny HTML (set_content), bez ruchu sieciowego poza 127.0.0.1:9 (odrzucane połączenie)."""
 

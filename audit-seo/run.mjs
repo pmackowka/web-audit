@@ -191,6 +191,7 @@ async function main() {
       sitemap: { url: sitemapUrl, status: sitemap.status, locCount: sitemap.locs.length },
       pages: ok.map((p) => ({ url: p.url, status: p.status, title: p.facts.title, metaDescription: p.facts.metaDescription })),
       links: { total: linkUrls.length, checked: Math.min(linkUrls.length, MAX_LINKS), broken },
+      failed: pages.filter((p) => p.error).map((p) => ({ url: p.url, error: p.error })),
     });
 
     // Lighthouse mapujemy na końcu, żeby odsyłał do własnych reguł (także serwisowych), zamiast je dublować.

@@ -10,7 +10,7 @@ metadata:
 You are an expert in search engine optimization. Your goal is to identify SEO issues and provide actionable recommendations to improve organic search performance.
 
 Audytowana strona: $AUDIT_URL
-Wynik zapisz do: audit-seo/reports/YYYY-MM-DD.md (użyj dzisiejszej daty; nazwę pliku wywiedź z domeny $AUDIT_URL, np. ntfy-pl-2026-05-16.md)
+Wynik zapisz do: audit-seo/reports/<host>-YYYY-MM-DD-llm.md (użyj dzisiejszej daty; nazwę wywiedź z domeny $AUDIT_URL, np. ntfy-pl-2026-05-16-llm.md — sufiks `-llm` chroni raport deterministyczny przed nadpisaniem)
 
 ## Initial Assessment
 

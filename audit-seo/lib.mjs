@@ -59,7 +59,8 @@ export function checkPage(facts) {
   check('seo-https', !facts.finalUrl.startsWith('https://') &&
     finding('seo-https', 'error', 'Strona nie działa na HTTPS.', 'Włącz HTTPS i przekieruj 301 z HTTP.'));
 
-  check('seo-redirects', facts.redirects.length > 1 &&
+  // redirects = [adres wejściowy, …, adres docelowy]; jedno 301 to długość 2 i nie jest łańcuchem.
+  check('seo-redirects', facts.redirects.length > 2 &&
     finding('seo-redirects', 'warning', `Łańcuch ${facts.redirects.length - 1} przekierowań.`,
       'Linkuj bezpośrednio do adresu docelowego albo skróć łańcuch do jednego 301.', facts.redirects));
 
@@ -154,6 +155,12 @@ export function checkSite(site) {
       `${site.links.broken.length} z ${site.links.checked} sprawdzonych linków wewnętrznych zwraca błąd (wszystkich: ${site.links.total}).`,
       'Popraw adres linku albo przywróć stronę docelową (ewentualnie przekierowanie 301).',
       site.links.broken.map((l) => `HTTP ${l.status} ${l.url} ← linkowany z: ${l.sources.join(', ')}`)));
+
+  // Strona z próby, której nie udało się wczytać, nie może dać cichego PASS.
+  const failed = site.failed ?? [];
+  check('seo-page-error', failed.length > 0 &&
+    finding('seo-page-error', 'error', `${failed.length} audytowanych stron nie wczytało się.`,
+      'Sprawdź dostępność adresu (timeout, błąd sieci, 5xx) i uruchom audyt ponownie.', failed.map((p) => `${p.url}: ${p.error}`)));
 
   return { findings: out, passed };
 }
@@ -381,7 +388,7 @@ export function renderReport({ url, date, engines, wcagTags, pages, groups, manu
     '',
     '## Ponowny audyt',
     '',
-    `\`npm run audit -- ${url}\` w repozytorium web-audit.`,
+    `\`npm --prefix audit-seo run audit -- ${url}\` w katalogu głównym repozytorium web-audit.`,
     '',
   ].join('\n');
 }

@@ -38,6 +38,12 @@ test('poprawna strona nie ma findingów', () => {
   assert.equal(passed.length, 11);
 });
 
+test('jedno przekierowanie to nie łańcuch, dwa już tak', () => {
+  const ids = (redirects) => checkPage({ ...goodPage, redirects }).findings.map((f) => f.id);
+  assert.deepEqual(ids(['http://example.com/', 'https://example.com/']), []);
+  assert.deepEqual(ids(['http://example.com/', 'https://example.com', 'https://example.com/']), ['seo-redirects']);
+});
+
 test('noindex, brak H1 i dwa canonicale to błędy', () => {
   const { findings } = checkPage({
     ...goodPage,
@@ -59,8 +65,10 @@ test('checkSite wykrywa duplikaty tytułów i niedziałające linki', () => {
       { url: 'https://a.pl/c', status: 404, title: 'Ten sam', metaDescription: 'A' },
     ],
     links: { total: 2, checked: 2, broken: [{ url: 'https://a.pl/x', status: 404, sources: ['https://a.pl/'] }] },
+    failed: [{ url: 'https://a.pl/d', error: 'Timeout 30000ms' }],
   });
-  assert.deepEqual(findings.map((f) => f.id), ['seo-duplicate-title', 'seo-broken-links']);
+  assert.deepEqual(findings.map((f) => f.id), ['seo-duplicate-title', 'seo-broken-links', 'seo-page-error']);
+  assert.equal(findings[2].severity, 'error');
   assert.deepEqual(findings[0].details, ['"Ten sam" → https://a.pl/, https://a.pl/b']);
 });
 

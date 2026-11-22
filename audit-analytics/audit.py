@@ -183,8 +183,8 @@ def find_secrets(url: str, extra: list[str]) -> list[str]:
 
 
 def secret_re(s: str) -> re.Pattern:
-    """Wielkość liter bez znaczenia, spacja w --mask pasuje też do „+” i wielu spacji (Jan+Kowalski)."""
-    return re.compile(r"[\s+]+".join(map(re.escape, s.split())), re.I)
+    """Wielkość liter bez znaczenia; spacja i „+” są wymienne (Jan+Kowalski, token base64 z „+” po parse_qsl → spacja)."""
+    return re.compile(r"[\s+]+".join(map(re.escape, re.split(r"[\s+]+", s.strip()))), re.I)
 
 
 def make_masker(secrets: list[str]):
@@ -600,6 +600,19 @@ def _consent_cmds(p: dict, kind: str) -> list[dict]:
             if isinstance(e, list) and len(e) > 2 and e[:2] == ["consent", kind] and isinstance(e[2], dict)]
 
 
+def _effective_default(defaults: list[dict], country: str = "PL") -> dict:
+    """Stan domyślny dla odwiedzającego z `country`: komenda z regionem obejmującym kraj (PL albo PL-xx) wygrywa
+    z komendą bez regionu, osobno dla każdego parametru („most specific takes precedence” w dokumentacji Google)."""
+    def covers(d):
+        return any(str(r).upper() == country or str(r).upper().startswith(country + "-") for r in d.get("region") or [])
+    generic = [d for d in defaults if not d.get("region")]
+    regional = [d for d in defaults if covers(d)]
+    eff = {}
+    for d in generic + regional:  # późniejsze (bardziej szczegółowe) nadpisują
+        eff.update({k: v for k, v in d.items() if k != "region"})
+    return eff
+
+
 def _analytics_denied(gcs: str | None) -> bool | None:
     """gcs=G1xy: y = analytics_storage (1 granted, 0 denied); None, gdy parametru brak lub ma inny format."""
     return gcs[3] == "0" if gcs and re.fullmatch(r"G1[01]{2}", gcs) else None
@@ -634,7 +647,7 @@ def classify_consent(passes: dict) -> tuple[str, list[list]]:
 
     if not defaults:
         add("`consent default`", "nie wykryto w dataLayer", "średnia")
-    for d in defaults[:1]:
+    for d in [_effective_default(defaults)] if defaults else []:
         missing = [k for k in CONSENT_V2_KEYS if k not in d]
         if missing:
             add("`consent default` — parametry v2", "brak: " + ", ".join(f"`{k}`" for k in missing), "wysoka")
@@ -690,9 +703,9 @@ def build_report(url, slug, passes, secrets, evidence) -> str:
     # Zgody
     g = passes["A"]["globals"]
     cmp_found = [n for n, k in (("OneTrust", "onetrust"), ("Cookiebot", "cookiebot"), ("CookieYes", "cookieyes"),
-                                ("Didomi", "didomi")) if any(p["globals"][k] for p in passes.values())]
+                                ("Didomi", "didomi")) if any(p["globals"].get(k) for p in passes.values())]
     cmp_found += [classify(r["url"])[0] for p in passes.values() for r in p["requests"] if classify(r["url"])[2] == "cmp"]
-    tcf = any(p["globals"]["tcf"] for p in passes.values())
+    tcf = any(p["globals"].get("tcf") for p in passes.values())
     consent_cmds = []
     for m, p in passes.items():
         for e in (e for pg in p["datalayer"] for e in pg["datalayer"] or []):
@@ -734,7 +747,7 @@ def build_report(url, slug, passes, secrets, evidence) -> str:
                           (r"hotjar-(\d+)\.js", "Hotjar"), (r"clarity\.ms/tag/(\w+)", "Clarity")):
             for found in re.findall(rx, u):
                 ids[label].add(found)
-    for k in (k for k in g["gtm_keys"] if re.match(r"(GTM|G|AW|DC|GT)-", k)):
+    for k in (k for k in g.get("gtm_keys") or [] if re.match(r"(GTM|G|AW|DC|GT)-", k)):
         ids["GTM" if k.startswith("GTM-") else "GA4" if k.startswith("G-") else "Google tag"].add(k)
     gtm_loads = Counter(re.search(r"id=([\w-]+)", r["url"]).group(1) for m, r in all_urls
                         if m == "A" and re.search(r"(gtm|gtag/js)\.?j?s?\?id=", r["url"]) and re.search(r"id=([\w-]+)", r["url"]))
@@ -861,8 +874,13 @@ def main():
             raise SystemExit(f"Brak audytu dla slug „{args.slug}” w reports/")
         out = found[-1]
         saved = out / "raw" / "secrets.json"  # --mask z przechwycenia działa też przy rebuildzie
-        secrets = sorted(set(secrets) | set(json.loads(saved.read_text()) if saved.exists() else []), key=len, reverse=True)
         passes = load_passes(out)
+        # Tokeny także z adresów faktycznie wczytanych (pierwsze żądanie przebiegu i final_url) — rebuild z innym URL-em
+        # albo bez secrets.json nie może zdjąć maskowania w publicznym raporcie.
+        seen = [u for p in passes.values() for u in (p["requests"][0]["url"] if p["requests"] else None, p["final_url"]) if u]
+        secrets = sorted(set(secrets).union(json.loads(saved.read_text()) if saved.exists() else [],
+                                            *(find_secrets(u, []) for u in seen)), key=len, reverse=True)
+        saved.write_text(json.dumps(secrets, ensure_ascii=False))
     else:
         out = REPORTS / f"{dt.date.today().isoformat()}-{args.slug}"
         shutil.rmtree(out / "raw", ignore_errors=True)  # bez resztek B/C z wcześniejszego przebiegu tego dnia
