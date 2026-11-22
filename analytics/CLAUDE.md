@@ -8,7 +8,7 @@ Pasywny audyt wdrożenia analityki i prywatności dowolnej strony: tagi, Consent
 - Nie klikaj przycisków, które rozpoczynają test, wysyłają formularz lub zużywają jednorazowy link. `audit.py` klika wyłącznie przyciski banera zgód (filtr `FORBIDDEN_RE` + wymóg kontenera z tekstem o cookies/zgodach).
 - Ręczna weryfikacja w przeglądarce (np. Chrome DevTools) — te same ograniczenia.
 - Tokeny z URL i dane osobowe audytującego maskuj w raporcie i na zrzutach (`7ea9…`). `raw/` zawiera dane niezamaskowane.
-- `reports/analytics/` jest w `.gitignore` (repo jest publiczne) — raportów nie commituj.
+- Raport i plansze są publiczne (repo jest publiczne); `raw/` jest w `.gitignore` i nigdy nie trafia do gita.
 
 ## Procedura
 1. `cd analytics && uv sync && uv run playwright install chromium` (tylko przy pierwszym uruchomieniu).

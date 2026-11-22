@@ -20,7 +20,7 @@ Folder lokalny: `~/Documents/dev/web-audit` | Repo: `github.com/pmackowka/web-au
 | `.claude/skills/` | Skile: `/audit <url>` (audyt w osobnym kontekście agenta `auditor`), `/audit-subpages` (równoległy audyt podstron), `/compare-reports` (porównanie raportów), `/analytics-audit <url> <firma>` (audyt analityki). |
 | `docs/` | Notatki z nauki — jeden plik Markdown na temat. |
 | `hooks/` | `on-git-push.sh` (powiadomienie macOS po `git push`), `audit-guard.sh` (auditor może tylko uruchomić audyt i zapisać `*.review.md`), `check-review.sh` (ocena musi cytować tylko id z raportu). |
-| `reports/` | `<host>-<data>.md` — raport z kodu (deterministyczny); `<host>-<data>.review.md` — ocena audytora (model); `analytics/<data>-<firma>/` — raporty analityki z `raw/` i planszami (w `.gitignore`). |
+| `reports/` | `<host>-<data>.md` — raport z kodu (deterministyczny); `<host>-<data>.review.md` — ocena audytora (model); `analytics/<data>-<firma>/` — raporty analityki z planszami (`raw/` w `.gitignore`). |
 
 ## Jak uruchomić audyt
 

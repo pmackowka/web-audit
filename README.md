@@ -21,7 +21,7 @@ uv sync && uv run playwright install chromium   # jednorazowo
 uv run audit.py https://example.com --slug example   # albo w sesji: /analytics-audit <url> <firma>
 ```
 
-Raport: `reports/analytics/<data>-<firma>/RAPORT.md` z planszami dowodowymi i surowym ruchem w `raw/` — folder w `.gitignore`, raporty zostają lokalnie. Testy: `uv run python -m unittest test_audit.py`.
+Raport: `reports/analytics/<data>-<firma>/RAPORT.md` z planszami dowodowymi i surowym ruchem w `raw/` (tylko lokalnie, w `.gitignore`). Testy: `uv run python -m unittest test_audit.py`.
 
 Wariant LLM (niedeterministyczny, do nauki):
 

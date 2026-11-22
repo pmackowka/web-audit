@@ -37,10 +37,10 @@ Plansze są renderowane z przechwyconego ruchu, a nie zrzucane z DevTools — dz
 
 ## Jak czytać raport
 
-`reports/analytics/RRRR-MM-DD-<firma>/RAPORT.md` (cały folder w `.gitignore`, raporty zostają lokalnie):
+`reports/analytics/RRRR-MM-DD-<firma>/RAPORT.md` (raport i plansze w repo, `raw/` w `.gitignore`):
 - **Faza przed/po** — żądanie wysłane przed/po kliknięciu w baner. Tag analityczny w B/„po” = odpala mimo odmowy.
 - **gcs** — `G1xy`: x = ad_storage, y = analytics_storage (1 granted, 0 denied).
 - **E-commerce (sekcja 10)** — pushe `ecommerce` w dataLayer vs [referencja zdarzeń GA4](https://developers.google.com/analytics/devguides/collection/ga4/reference/events): format UA zamiast `items`, produkty bez `item_id`/`item_name`, liczby jako tekst, `value` bez `currency`, `value` ≠ suma price×quantity, brak `transaction_id`, brak `ecommerce: null`, zdarzenie bez żądania GA4 albo żądanie GA4 bez produktów (`pr1…`). Walidowany przebieg C (po akceptacji), a bez niego A.
 - **Wycieki** — token z URL, e-mail lub telefon w URL, Refererze albo body żądania do obcej domeny.
-- Tokeny i dane osobowe w raporcie są zamaskowane (`abcd…`). Surowe dane są w `raw/` obok raportu.
+- Tokeny i dane osobowe w raporcie są zamaskowane (`abcd…`). Surowe dane zostają lokalnie w `raw/` (w `.gitignore`).
 
