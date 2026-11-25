@@ -1,0 +1,1687 @@
+# Audyt SEO i dostępności: https://www.comperia.pl/
+
+- Data: 2026-11-25
+- Status: **FAIL** (problemy: błędy 11, ostrzeżenia 10, info 1, do ręcznej weryfikacji 5)
+- Średnie wyniki Lighthouse (10 str.): SEO **82/100**, Accessibility **86/100**, Best Practices **69/100**
+- Zakres: 10 stron (strona startowa + kolejne adresy z sitemapy), robots.txt, sitemap, linki wewnętrzne
+- Silniki: Lighthouse 13.6.0 (mobile), axe-core 4.14.1, axe tagi: wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa
+- Nie sprawdzono: wydajności (Core Web Vitals), treści i jej jakości, profilu linków zewnętrznych, obsługi klawiaturą i czytnikiem ekranu (test ręczny).
+
+## Jak czytać ten raport (dla agenta wdrażającego poprawki)
+
+1. Raport wygenerował kod, nie model — liczby i listy problemów są powtarzalne dla tego samego stanu strony.
+2. Napraw najpierw `error`, potem `warning`; `info` i sekcja ręcznej weryfikacji wymagają oceny człowieka.
+3. Każdy problem ma id reguły, sposób naprawy, strony, na których wystąpił, i elementy (selektor CSS + HTML) — po nich znajdź miejsce w kodzie źródłowym. Problem na wielu stronach zwykle oznacza wspólny komponent (nagłówek, stopka, szablon).
+4. Tabela utraconych punktów wskazuje id problemu, którego poprawa podniesie wynik Lighthouse.
+5. Po wdrożeniu uruchom audyt ponownie (komenda na dole); poprawka jest skuteczna, gdy problem znika z raportu.
+
+## Strony
+
+| Strona | HTTP | SEO | Accessibility | Best Practices | Błędy | Ostrzeżenia |
+|---|---|---|---|---|---|---|
+| / | 200 | 75 | 75 | 65 | 8 | 10 |
+| /kredyty_hipoteczne | 200 | 83 | 87 | 69 | 6 | 9 |
+| /mapa-strony/lista-ofert-kredytow-hipotecznych | 200 | 83 | 95 | 73 | 2 | 7 |
+| /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny | 200 | 83 | 86 | 69 | 6 | 9 |
+| /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka | 200 | 83 | 86 | 69 | 6 | 9 |
+| /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna | 200 | 83 | 86 | 69 | 6 | 8 |
+| /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny | 200 | 83 | 86 | 69 | 6 | 8 |
+| /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem | 200 | 83 | 86 | 69 | 6 | 8 |
+| /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny | 200 | 83 | 86 | 69 | 6 | 8 |
+| /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny | 200 | 83 | 86 | 69 | 6 | 8 |
+| **Średnia** | | 82 | 86 | 69 | | |
+
+## Utracone punkty Lighthouse
+
+| Kategoria | Audyt | Stron | Śr. utrata pkt | Zobacz |
+|---|---|---|---|---|
+| Best Practices | Uses third-party cookies | 10 | 19.2 | lh-third-party-cookies |
+| SEO | Document does not have a meta description | 10 | 8.3 | seo-meta-description |
+| SEO | Links are not crawlable | 10 | 8.3 | lh-crawlable-anchors |
+| Best Practices | Browser errors were logged to the console | 10 | 3.8 | lh-errors-in-console |
+| Best Practices | Issues were logged in the `Issues` panel in Chrome Devtools | 10 | 3.8 | lh-inspector-issues |
+| Best Practices | Serves images with low resolution | 9 | 3.4 | lh-image-size-responsive |
+| Accessibility | Links do not have a discernible name | 10 | 3.2 | a11y-link-name |
+| Accessibility | `<frame>` or `<iframe>` elements do not have a title | 9 | 2.8 | a11y-frame-title |
+| Accessibility | Background and foreground colors do not have a sufficient contrast ratio. | 9 | 2.8 | a11y-color-contrast |
+| Accessibility | Elements use prohibited ARIA attributes | 7 | 2.2 | a11y-aria-prohibited-attr |
+| Accessibility | Heading elements are not in a sequentially-descending order | 10 | 1.4 | lh-heading-order |
+| SEO | Image elements do not have `[alt]` attributes | 1 | 0.8 | a11y-image-alt |
+| Accessibility | Lists do not contain only `<li>` elements and script supporting elements (`<script>` and `<template>`). | 2 | 0.6 | a11y-list |
+| Accessibility | Elements with an ARIA `[role]` that require children to contain a specific `[role]` are missing some or all of those required children. | 1 | 0.4 | a11y-aria-required-children |
+| Accessibility | Form elements do not have associated labels | 1 | 0.4 | a11y-label |
+| Accessibility | Image elements do not have `[alt]` attributes | 1 | 0.4 | a11y-image-alt |
+| Best Practices | Displays images with incorrect aspect ratio | 1 | 0.4 | lh-image-aspect-ratio |
+
+## SEO
+
+### [error] seo-broken-links — cały serwis
+
+- Naprawa: Popraw adres linku albo przywróć stronę docelową (ewentualnie przekierowanie 301).
+- Strona: cały serwis
+  - Problem: 1 z 66 sprawdzonych linków wewnętrznych zwraca błąd (wszystkich: 66).
+  - Szczegół: `HTTP 500 https://www.comperia.pl/kredyty_hipoteczne/szczegoly-oferty-3279-bank-millennium-zamieszkaj-na-swoim-z-kredytem-hipotecznym ← linkowany z: https://www.comperia.pl/mapa-strony/lista-ofert-kredytow-hipotecznych`
+
+### [error] seo-h1 — 9 z 10 stron
+
+- Naprawa: Dodaj jeden H1 opisujący temat strony.
+- Strona: /kredyty_hipoteczne
+  - Problem: Brak nagłówka H1.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Brak nagłówka H1.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Brak nagłówka H1.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Brak nagłówka H1.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Brak nagłówka H1.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Brak nagłówka H1.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Brak nagłówka H1.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Brak nagłówka H1.
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Brak nagłówka H1.
+
+### [warning] lh-crawlable-anchors — 10 z 10 stron
+
+- Naprawa: Search engines may use `href` attributes on links to crawl websites. Ensure that the `href` attribute of anchor elements links to an appropriate destination, so more pages of the site can be discovered. [Learn how to make links crawlable](https://support.google.com/webmasters/answer/9112205)
+- Strona: /
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (10 z 17):
+    - Selektor: `div.col-12 > div.slider-input > div.slider-input__flex > a.slider-input__icon`
+      - HTML: `<a href="javascript:void(0);" class="slider-input__icon" aria-label="Edytuj kwotę kredytu">`
+    - Selektor: `div.col-12 > div.slider-input > div.slider-input__flex > a.slider-input__icon`
+      - HTML: `<a href="javascript:void(0);" class="slider-input__icon" aria-label="Edytuj okres spłaty">`
+    - Selektor: `div.col-12 > div.slider-input > div.slider-input__flex > a.slider-input__icon`
+      - HTML: `<a href="javascript:void(0);" class="slider-input__icon" aria-label="Edytuj kwotę kredytu">`
+    - Selektor: `div.col-12 > div.slider-input > div.slider-input__flex > a.slider-input__icon`
+      - HTML: `<a href="javascript:void(0);" class="slider-input__icon" aria-label="Edytuj okres spłaty">`
+    - Selektor: `div.col-12 > div.slider-input > div.slider-input__flex > a.slider-input__icon`
+      - HTML: `<a href="javascript:void(0);" class="slider-input__icon" aria-label="Edytuj kwotę kredytu">`
+    - Selektor: `div.col-12 > div.slider-input > div.slider-input__flex > a.slider-input__icon`
+      - HTML: `<a href="javascript:void(0);" class="slider-input__icon" aria-label="Edytuj okres spłaty">`
+    - Selektor: `div.swiper > div#swiper-wrapper-dc81a6b62f8f4149 > div.swiper-slide > a`
+      - HTML: `<a href="javascript:void(0);" data-show-options="options__1">`
+    - Selektor: `div.swiper > div#swiper-wrapper-dc81a6b62f8f4149 > div.swiper-slide > a`
+      - HTML: `<a href="javascript:void(0);" data-show-options="options__2">`
+    - Selektor: `div.swiper > div#swiper-wrapper-dc81a6b62f8f4149 > div.swiper-slide > a`
+      - HTML: `<a href="javascript:void(0);" data-show-options="options__3">`
+    - Selektor: `div.swiper > div#swiper-wrapper-dc81a6b62f8f4149 > div.swiper-slide > a`
+      - HTML: `<a href="javascript:void(0);" data-show-options="options__5">`
+- Strona: /kredyty_hipoteczne
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Links are not crawlable (Lighthouse, -8.3 pkt w kategorii SEO).
+  - Elementy (5 z 5):
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+    - Selektor: `nav.page-sidebar__nav > ul > li.has--childs > a`
+      - HTML: `<a href="javascript:void(0)" aria-expanded="false" aria-haspopup="true">`
+
+### [warning] seo-canonical — 10 z 10 stron
+
+- Naprawa: Dodaj <link rel="canonical"> wskazujący na adres tej strony.
+- Strona: /
+  - Problem: Brak link rel=canonical.
+- Strona: /kredyty_hipoteczne
+  - Problem: Brak link rel=canonical.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Brak link rel=canonical.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Brak link rel=canonical.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Brak link rel=canonical.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Brak link rel=canonical.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Brak link rel=canonical.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Brak link rel=canonical.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Brak link rel=canonical.
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Brak link rel=canonical.
+
+### [warning] seo-meta-description — 10 z 10 stron
+
+- Naprawa: Dodaj <meta name="description"> opisujący stronę w 70–160 znakach.
+- Strona: /
+  - Problem: Brak meta description.
+- Strona: /kredyty_hipoteczne
+  - Problem: Brak meta description.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Brak meta description.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Brak meta description.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Brak meta description.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Brak meta description.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Brak meta description.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Brak meta description.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Brak meta description.
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Brak meta description.
+
+### [warning] seo-title — 4 z 10 stron
+
+- Naprawa: Skróć albo wydłuż tytuł tak, żeby główna fraza była na początku i nie był ucinany w wynikach Google.
+- Strona: /
+  - Problem: Tytuł ma 76 znaków (zalecane 30–60).
+  - Szczegół: `Porównywarka kredytów gotówkowych, samochodowych, hipotecznych, lokat i kont`
+- Strona: /kredyty_hipoteczne
+  - Problem: Tytuł ma 69 znaków (zalecane 30–60).
+  - Szczegół: `Kredyty hipoteczne - porównywarka kredytów hipotecznych - Comperia.pl`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Tytuł ma 25 znaków (zalecane 30–60).
+  - Szczegół: `Megahipoteka w Alior Bank`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Tytuł ma 23 znaków (zalecane 30–60).
+  - Szczegół: `Kredyt hipoteczny w BOŚ`
+
+### [info] seo-structured-data — 3 z 10 stron
+
+- Naprawa: Rozważ schema.org (np. Organization, WebSite, Article).
+- Strona: /
+  - Problem: Brak danych strukturalnych JSON-LD.
+- Strona: /kredyty_hipoteczne
+  - Problem: Brak danych strukturalnych JSON-LD.
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Brak danych strukturalnych JSON-LD.
+
+## Dostępność (WCAG)
+
+### [error] a11y-aria-prohibited-attr — 7 z 10 stron
+
+- Naprawa: Ensure ARIA attributes are not prohibited for an element's role Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=playwright
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Elements must only use permitted ARIA attributes (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `.stars`
+      - HTML: `<div class="stars" aria-label="Ocena: 5 na 5">`
+      - Do zrobienia: Fix all of the following: aria-label attribute cannot be used on "div" elements with no valid role attribute.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Elements must only use permitted ARIA attributes (1 elem., impact: serious).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Elements must only use permitted ARIA attributes (1 elem., impact: serious).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Elements must only use permitted ARIA attributes (1 elem., impact: serious).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Elements must only use permitted ARIA attributes (1 elem., impact: serious).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Elements must only use permitted ARIA attributes (1 elem., impact: serious).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Elements must only use permitted ARIA attributes (1 elem., impact: serious).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+
+### [error] a11y-aria-required-children — 1 z 10 stron
+
+- Naprawa: Ensure elements with an ARIA role that require child roles contain them Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=playwright
+- Strona: /
+  - Problem: Certain ARIA roles must contain particular children (1 elem., impact: critical).
+  - Elementy (1 z 1):
+    - Selektor: `#swiper-wrapper-b411b934ba67ae5d`
+      - HTML: `<div class="swiper-wrapper" role="list" id="swiper-wrapper-b411b934ba67ae5d" aria-live="polite">`
+      - Do zrobienia: Fix any of the following: Element has children which are not allowed: [role=group]
+
+### [error] a11y-color-contrast — 9 z 10 stron
+
+- Naprawa: Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright
+- Strona: /
+  - Problem: Elements must meet minimum color contrast ratio thresholds (39 elem., impact: serious).
+  - Elementy (10 z 39):
+    - Selektor: `#bank-heading`
+      - HTML: `<h6 id="bank-heading">Pośrednictwo bankowe:</h6>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.83 (foreground color: #bfbfbf, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#example-heading`
+      - HTML: `<h6 id="example-heading">Przykład reprezentatywny</h6>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.83 (foreground color: #bfbfbf, background color: #ffffff, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#nonbank-heading`
+      - HTML: `<h6 id="nonbank-heading">Pośrednictwo pozabankowe:</h6>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.83 (foreground color: #bfbfbf, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `a[aria-controls="ranking__2"]`
+      - HTML: `<a href="javascript:void(0);" role="tab" aria-controls="ranking__2" tabindex="0" data-target="ranking__2">Kredyty hipoteczne</a>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.19 (foreground color: #6588a8, background color: #00376d, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `a[aria-controls="ranking__3"]`
+      - HTML: `<a href="javascript:void(0);" role="tab" aria-controls="ranking__3" tabindex="0" data-target="ranking__3">Ranking kont</a>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.19 (foreground color: #6588a8, background color: #00376d, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `a[aria-label="Dowiedz się więcej o Comperia"]`
+      - HTML: `<a href="/informacje-o-nas" class="button" aria-label="Dowiedz się więcej o Comperia">Przeczytaj więcej o Comperia</a>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `a[aria-label="Znajdź najlepszy kredyt"]`
+      - HTML: `<a href="/kredyty_gotowkowe" class="button is--orange" aria-label="Znajdź najlepszy kredyt">Znajdź najlepszy kredyt</a>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.01 (foreground color: #ffffff, background color: #f5a713, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `a[href$="comperialead.pl/"][aria-label="Sprawdź ofertę BOS Banku"][rel="nofollow"]`
+      - HTML: `<a href="https://www.comperialead.pl/" rel="nofollow" target="_blank" class="button" aria-label="Sprawdź ofertę BOS Banku">Sprawdź</a>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `div[aria-label="1 / 4"] > .recommends-elem > .recommends-elem__desc > .button[aria-label="Sprawdź ofertę BOS Banku"][rel="nofollow"]`
+      - HTML: `<a href="https://comperiaagent.pl/kontakt/398/00edba" rel="nofollow" target="_blank" class="button" aria-label="Sprawdź ofertę BOS Banku">Sprawdź</a>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `div[aria-label="2 / 4"] > .recommends-elem > .recommends-elem__desc > .button[aria-label="Sprawdź ofertę BOS Banku"][rel="nofollow"]`
+      - HTML: `<a href="https://partnerzy.comperia.pl/ads.php?&amp;id_bank=62&amp;produkt_=19&amp;id_produkt_=2026101601&amp;link_id_=8580&amp;lid=8580" rel="nofollow" target="_blank" class="button" aria-label="Sprawdź ofertę BOS Banku">Sprawdź</a>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+- Strona: /kredyty_hipoteczne
+  - Problem: Elements must meet minimum color contrast ratio thresholds (64 elem., impact: serious).
+  - Elementy (10 z 64):
+    - Selektor: `.button[aria-label="Sprawdź ofertę Banku Pekao"][data-bank="Bank Millennium"]`
+      - HTML: `<a href="http://partnerzy.com..." class="button" target="_blank" rel="nofollow" aria-label="Sprawdź ofertę Banku..." data-bank="Bank Millennium" data-produkt="Wybierz kredyt hipot...">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.button[data-produkt="Kredyt hipoteczny"][data-bank="Bank Pekao S.A."]`
+      - HTML: `<a href="http://partnerzy.comperia.pl/pp_adserwer.php?w=1&id_partner=0&id_bank=17&kwota_kredytu_=250000&produkt_=1&id_produkt_=2906&link2=1&link_id_=19922" target="_blank" rel="nofollow" class="button" data-bank="Bank Pekao S.A." data-produkt="Kredyt hipoteczny">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.has--details.product-long-list.offer:nth-child(10) > .offer-details > .offer-details__details > ul > li:nth-child(1)`
+      - HTML: `<li><strong>0%</strong> Prowizja</li>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.21 (foreground color: #aeaeae, background color: #ffffff, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.has--details.product-long-list.offer:nth-child(10) > .offer-details > .offer-details__details > ul > li:nth-child(2)`
+      - HTML: `<li><strong>6,28%</strong> Oprocentowanie</li>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.21 (foreground color: #aeaeae, background color: #ffffff, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.has--details.product-long-list.offer:nth-child(10) > .offer-details > .offer-details__details > ul > li:nth-child(3)`
+      - HTML: `<li><strong>6,48%</strong> RRSO</li>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.21 (foreground color: #aeaeae, background color: #ffffff, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.has--details.product-long-list.offer:nth-child(10) > .offer-details > .offer-details__details > ul > li:nth-child(4)`
+      - HTML: `<li><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>Ocena klienta</li>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.21 (foreground color: #aeaeae, background color: #ffffff, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.has--details.product-long-list.offer:nth-child(10) > .offer-logo > span`
+      - HTML: `<span>Crédit Agricole</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.12 (foreground color: #aeaeae, background color: #fafafa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.has--details.product-long-list.offer:nth-child(10) > .offer-rate > .button[data-bank="Crédit Agricole"][rel="nofollow"]`
+      - HTML: `<a href="http://partnerzy.comperia.pl/pp_adserwer.php?w=1&id_partner=0&id_bank=114&kwota_kredytu_=250000&produkt_=1&id_produkt_=3106&link2=1&link_id_=21554" target="_blank" rel="nofollow" class="button" data-bank="Crédit Agricole" data-produkt="Kredyt hipoteczny Prosto do domu">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.has--details.product-long-list.offer:nth-child(11) > .offer-details > .offer-details__details > ul > li:nth-child(1)`
+      - HTML: `<li><strong>0%</strong> Prowizja</li>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.21 (foreground color: #aeaeae, background color: #ffffff, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.has--details.product-long-list.offer:nth-child(11) > .offer-details > .offer-details__details > ul > li:nth-child(2)`
+      - HTML: `<li><strong>6,39%</strong> Oprocentowanie</li>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.21 (foreground color: #aeaeae, background color: #ffffff, font size: 15.0pt (20px), font weight: normal). Expected contrast ratio of 4.5:1
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Elements must meet minimum color contrast ratio thresholds (25 elem., impact: serious).
+  - Elementy (10 z 25):
+    - Selektor: `.button`
+      - HTML: `<a target="_blank" href="http://partnerzy.comperia.pl/pp_adserwer.php?w=1&id_partner=0&id_bank=62&kwota_kredytu_=200000&produkt_=1&id_produkt_=1485&link2=1&link_id_=3159" class="button is--orange" aria-label="Darmowa porada" rel="nofollow" data-bank="Alior Bank" data-produkt="Megahipoteka">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.01 (foreground color: #ffffff, background color: #f5a713, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#additional-info-title`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#bank-logo-title`
+      - HTML: `<span id="bank-logo-title">Alior Bank</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#details-desc-title`
+      - HTML: `<p id="details-desc-title">Ocena danego banku na podstawie średniej ocen zebranych od naszych klientów</p>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(1) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(10) > span:nth-child(1)`
+      - HTML: `<span>Wycena nieruchomości:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(11) > span`
+      - HTML: `<span>Weksel:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(12) > span:nth-child(1)`
+      - HTML: `<span>Wcześniejsza spłata:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(2) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(4) > ol > li:nth-child(1) > span:nth-child(1)`
+      - HTML: `<span>płatne co miesiąc:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Elements must meet minimum color contrast ratio thresholds (24 elem., impact: serious).
+  - Elementy (10 z 24):
+    - Selektor: `.button`
+      - HTML: `<a target="_blank" href="http://partnerzy.com..." class="button is--orange" aria-label="Darmowa porada" rel="nofollow" data-bank="Alior Bank" data-produkt="Megahipoteka - ofert...">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.01 (foreground color: #ffffff, background color: #f5a713, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#additional-info-title`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#bank-logo-title`
+      - HTML: `<span id="bank-logo-title">Alior Bank</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#details-desc-title`
+      - HTML: `<p id="details-desc-title">Ocena danego banku na podstawie średniej ocen zebranych od naszych klientów</p>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(1) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(10) > span`
+      - HTML: `<span>Weksel:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(11) > span:nth-child(1)`
+      - HTML: `<span>Wcześniejsza spłata:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(2) > .detail-more`
+      - HTML: `<span class="detail-more">(5%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(4) > ol > li:nth-child(1) > span:nth-child(1)`
+      - HTML: `<span>płatne co miesiąc:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(4) > ol > li:nth-child(2) > span:nth-child(1)`
+      - HTML: `<span>płatne jednorazowo:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Elements must meet minimum color contrast ratio thresholds (25 elem., impact: serious).
+  - Elementy (10 z 25):
+    - Selektor: `.button`
+      - HTML: `<a target="_blank" href="http://partnerzy.com..." class="button is--orange" aria-label="Darmowa porada" rel="nofollow" data-bank="BOŚ" data-produkt="Ekologiczny kredyt h...">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.01 (foreground color: #ffffff, background color: #f5a713, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#additional-info-title`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#bank-logo-title`
+      - HTML: `<span id="bank-logo-title">BOŚ</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#details-desc-title`
+      - HTML: `<p id="details-desc-title">Ocena danego banku na podstawie średniej ocen zebranych od naszych klientów</p>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(1) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(10) > span:nth-child(1)`
+      - HTML: `<span>Wycena nieruchomości:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(11) > span:nth-child(1)`
+      - HTML: `<span>Weksel:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(12) > span:nth-child(1)`
+      - HTML: `<span>Wcześniejsza spłata:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(2) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(4) > ol > li:nth-child(1) > span:nth-child(1)`
+      - HTML: `<span>płatne co miesiąc:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Elements must meet minimum color contrast ratio thresholds (26 elem., impact: serious).
+  - Elementy (10 z 26):
+    - Selektor: `.is--orange`
+      - HTML: `<a target="_blank" href="http://partnerzy.com..." class="button is--orange" aria-label="Darmowa porada" rel="nofollow" data-bank="Bank Pekao S.A." data-produkt="Kredyt hipoteczny z ...">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.01 (foreground color: #ffffff, background color: #f5a713, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.s--details[aria-labelledby="additional-info-title"]:nth-child(6) > .is--big.fluid > .box.is--grey > .box-header.is--small > h2`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.s--details[aria-labelledby="additional-info-title"]:nth-child(7) > .is--big.fluid > .box.is--grey > .box-header.is--small > h2`
+      - HTML: `<h2 id="additional-info-title">Oferta promocyjna</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#bank-logo-title`
+      - HTML: `<span id="bank-logo-title">Bank Pekao S.A.</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#details-desc-title`
+      - HTML: `<p id="details-desc-title">Ocena danego banku na podstawie średniej ocen zebranych od naszych klientów</p>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `a[aria-label="Złóż wniosek"]`
+      - HTML: `<a target="_blank" href="http://partnerzy.comperia.pl/pp_adserwer.php?w=1&id_partner=0&id_bank=17&kwota_kredytu_=200000&produkt_=1&id_produkt_=2896&link_id_=19646" class="button" aria-label="Złóż wniosek" rel="nofollow" data-bank="Bank Pekao S.A." ...>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(1) > .detail-more`
+      - HTML: `<span class="detail-more">(0,025%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(10) > span`
+      - HTML: `<span>Weksel:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(11) > span:nth-child(1)`
+      - HTML: `<span>Wcześniejsza spłata:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(2) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Elements must meet minimum color contrast ratio thresholds (26 elem., impact: serious).
+  - Elementy (10 z 26):
+    - Selektor: `.button`
+      - HTML: `<a target="_blank" href="http://partnerzy.com..." class="button is--orange" aria-label="Darmowa porada" rel="nofollow" data-bank="Bank Pekao S.A." data-produkt="Kredyt hipoteczny">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.01 (foreground color: #ffffff, background color: #f5a713, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.s--details[aria-labelledby="additional-info-title"]:nth-child(6) > .is--big.fluid > .box.is--grey > .box-header.is--small > h2`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `.s--details[aria-labelledby="additional-info-title"]:nth-child(7) > .is--big.fluid > .box.is--grey > .box-header.is--small > h2`
+      - HTML: `<h2 id="additional-info-title">Oferta promocyjna</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#bank-logo-title`
+      - HTML: `<span id="bank-logo-title">Bank Pekao S.A.</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#details-desc-title`
+      - HTML: `<p id="details-desc-title">Ocena danego banku na podstawie średniej ocen zebranych od naszych klientów</p>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(1) > .detail-more`
+      - HTML: `<span class="detail-more">(0,025%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(10) > span:nth-child(1)`
+      - HTML: `<span>Wycena nieruchomości:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(11) > span`
+      - HTML: `<span>Weksel:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(12) > span:nth-child(1)`
+      - HTML: `<span>Wcześniejsza spłata:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(2) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Elements must meet minimum color contrast ratio thresholds (24 elem., impact: serious).
+  - Elementy (10 z 24):
+    - Selektor: `.button`
+      - HTML: `<a target="_blank" href="http://partnerzy.comperia.pl/pp_adserwer.php?w=1&id_partner=0&id_bank=17&kwota_kredytu_=200000&produkt_=1&id_produkt_=3002&link_id_=20620" class="button" aria-label="Złóż wniosek" rel="nofollow" data-bank="Bank Pekao S.A." data-produkt="Bank Pekao - Kredyt Hipoteczny">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 3.13 (foreground color: #ffffff, background color: #009bd9, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#additional-info-title`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#bank-logo-title`
+      - HTML: `<span id="bank-logo-title">Bank Pekao S.A.</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#details-desc-title`
+      - HTML: `<p id="details-desc-title">Ocena danego banku na podstawie średniej ocen zebranych od naszych klientów</p>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(1) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(10) > span`
+      - HTML: `<span>Weksel:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(11) > span:nth-child(1)`
+      - HTML: `<span>Wcześniejsza spłata:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(2) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(4) > ol > li:nth-child(1) > span:nth-child(1)`
+      - HTML: `<span>płatne co miesiąc:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(4) > ol > li:nth-child(2) > span:nth-child(1)`
+      - HTML: `<span>płatne jednorazowo:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Elements must meet minimum color contrast ratio thresholds (25 elem., impact: serious).
+  - Elementy (10 z 25):
+    - Selektor: `.button`
+      - HTML: `<a target="_blank" href="http://partnerzy.comperia.pl/pp_adserwer.php?w=1&id_partner=0&id_bank=15&kwota_kredytu_=200000&produkt_=1&id_produkt_=61&link2=1&link_id_=2983" class="button is--orange" aria-label="Darmowa porada" rel="nofollow" data-bank="BOŚ" data-produkt="Kredyt hipoteczny">`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.01 (foreground color: #ffffff, background color: #f5a713, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#additional-info-title`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 1.43 (foreground color: #ffffff, background color: #d7d7d7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#bank-logo-title`
+      - HTML: `<span id="bank-logo-title">BOŚ</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `#details-desc-title`
+      - HTML: `<p id="details-desc-title">Ocena danego banku na podstawie średniej ocen zebranych od naszych klientów</p>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(1) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(10) > span:nth-child(1)`
+      - HTML: `<span>Wycena nieruchomości:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(11) > span:nth-child(1)`
+      - HTML: `<span>Weksel:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(12) > span:nth-child(1)`
+      - HTML: `<span>Wcześniejsza spłata:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(2) > .detail-more`
+      - HTML: `<span class="detail-more">(0%)</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+    - Selektor: `li:nth-child(4) > ol > li:nth-child(1) > span:nth-child(1)`
+      - HTML: `<span>płatne co miesiąc:</span>`
+      - Do zrobienia: Fix any of the following: Element has insufficient color contrast of 2.14 (foreground color: #aeaeae, background color: #fbfbfb, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1
+
+### [error] a11y-frame-title — 9 z 10 stron
+
+- Naprawa: Ensure <iframe> and <frame> elements have an accessible name Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/frame-title?application=playwright
+- Strona: /
+  - Problem: Frames must have an accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `#a1858332`
+      - HTML: `<iframe id="a1858332" name="a1858332" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3204&cb=114431366332" frameborder="0" scrolling="no" width="1" height="1">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+    - Selektor: `#a40b84a6`
+      - HTML: `<iframe id="a40b84a6" name="a40b84a6" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=2012&cb=35692485844" frameborder="0" scrolling="no" width="300" height="250">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+    - Selektor: `#ad3251ec`
+      - HTML: `<iframe id="ad3251ec" name="ad3251ec" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3130&cb=114431366332" frameborder="0" scrolling="no" width="1" height="1">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+    - Selektor: `#aefff990`
+      - HTML: `<iframe id="aefff990" name="aefff990" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3206&cb=114431366332" frameborder="0" scrolling="no" width="1" height="1">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+- Strona: /kredyty_hipoteczne
+  - Problem: Frames must have an accessible name (2 elem., impact: serious).
+  - Elementy (2 z 2):
+    - Selektor: `#a16a6dc4`
+      - HTML: `<iframe id="a16a6dc4" name="a16a6dc4" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=2976&cb=400582718137" frameborder="0" scrolling="no" width="1" height="1">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+    - Selektor: `#a1938751`
+      - HTML: `<iframe id="a1938751" name="a1938751" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=599&cb=400582718137" frameborder="0" scrolling="no" width="750" height="200">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Frames must have an accessible name (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `#aaf33d98`
+      - HTML: `<iframe id="aaf33d98" name="aaf33d98" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3244&cb=293871069869" frameborder="0" scrolling="no" width="300" height="250">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Frames must have an accessible name (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `#aaf33d98`
+      - HTML: `<iframe id="aaf33d98" name="aaf33d98" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3244&cb=38434055004" frameborder="0" scrolling="no" width="300" height="250">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Frames must have an accessible name (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `#aaf33d98`
+      - HTML: `<iframe id="aaf33d98" name="aaf33d98" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3244&cb=795675463689" frameborder="0" scrolling="no" width="300" height="250">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Frames must have an accessible name (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `#aaf33d98`
+      - HTML: `<iframe id="aaf33d98" name="aaf33d98" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3244&cb=827191934320" frameborder="0" scrolling="no" width="300" height="250">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Frames must have an accessible name (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `#aaf33d98`
+      - HTML: `<iframe id="aaf33d98" name="aaf33d98" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3244&cb=481338763673" frameborder="0" scrolling="no" width="300" height="250">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Frames must have an accessible name (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `#aaf33d98`
+      - HTML: `<iframe id="aaf33d98" name="aaf33d98" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3244&cb=334444154190" frameborder="0" scrolling="no" width="300" height="250">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Frames must have an accessible name (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `#aaf33d98`
+      - HTML: `<iframe id="aaf33d98" name="aaf33d98" src="https://ads.comperia.pl/www/delivery/afr.php?zoneid=3244&cb=486435285317" frameborder="0" scrolling="no" width="300" height="250">`
+      - Do zrobienia: Fix any of the following: Element has no title attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element's default semantics were not overridden with role="none" or role="presentation"
+
+### [error] a11y-image-alt — 1 z 10 stron
+
+- Naprawa: Ensure <img> elements have alternative text or a role of none or presentation Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/image-alt?application=playwright
+- Strona: /
+  - Problem: Images must have alternative text (1 elem., impact: critical).
+  - Elementy (1 z 1):
+    - Selektor: `ul > img`
+      - HTML: `<img src="https://gde-default.hit.gemius.pl/_[TIMESTAMP]/redot.gif?id=nG46QUCHp_8bZR3zi4MdU3YY78yNU4LM14xj24SljLb.w7/fastid=hofamuzamfkbpobpoptfvgqllqle/stparam=ofmgjukizm/nc=0/gdpr=0/gdpr_consent=">`
+      - Do zrobienia: Fix any of the following: Element does not have an alt attribute; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute; Element's default semantics were not overridden with role="none" or role="presentation"
+
+### [error] a11y-label — 1 z 10 stron
+
+- Naprawa: Ensure every form element has a label Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/label?application=playwright
+- Strona: /
+  - Problem: Form elements must have labels (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `#checkbox__4`
+      - HTML: `<input type="checkbox" name="checkbox__4" value="" id="checkbox__4">`
+      - Do zrobienia: Fix any of the following: Element does not have an implicit (wrapped) <label>; Element does not have an explicit <label>; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute; Element has no placeholder attribute; Element's default semantics were not overridden with role="none" or role="presentation"
+    - Selektor: `#checkbox__5`
+      - HTML: `<input type="checkbox" name="checkbox__5" value="" id="checkbox__5">`
+      - Do zrobienia: Fix any of the following: Element does not have an implicit (wrapped) <label>; Element does not have an explicit <label>; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute; Element has no placeholder attribute; Element's default semantics were not overridden with role="none" or role="presentation"
+    - Selektor: `#checkbox__6`
+      - HTML: `<input type="checkbox" name="checkbox__6" value="" id="checkbox__6">`
+      - Do zrobienia: Fix any of the following: Element does not have an implicit (wrapped) <label>; Element does not have an explicit <label>; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute; Element has no placeholder attribute; Element's default semantics were not overridden with role="none" or role="presentation"
+
+### [error] a11y-label-content-name-mismatch — 9 z 10 stron
+
+- Naprawa: Ensure that elements labelled through their content must have their visible text as part of their accessible name Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=playwright
+- Strona: /
+  - Problem: Elements must have their visible text as part of their accessible name (5 elem., impact: serious).
+  - Elementy (5 z 5):
+    - Selektor: `a[aria-label="Dowiedz się więcej o Comperia"]`
+      - HTML: `<a href="/informacje-o-nas" class="button" aria-label="Dowiedz się więcej o Comperia">Przeczytaj więcej o Comperia</a>`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `div[aria-label="1 / 2"] > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="https://www.comperia.pl/najlepsze-kantory-w-aplikacjach-bankowych-ranking-listopad-2026" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `div[aria-label="1 / 2"] > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ranking-kredytow-konsolidacyjnych-listopad-2026" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `div[aria-label="1 / 2"] > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/dobry-plan-na-przyszlosc-alior-bank-zacheca-do-oszczedzania-nawet-500-zl" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `div[aria-label="1 / 2"] > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/konto-firmowe-pko-jak-zdobyc-do-5000-zl-premii" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+- Strona: /kredyty_hipoteczne
+  - Problem: Elements must have their visible text as part of their accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/refinansowanie-kredytu-hipotecznego-ile-mozna-zaoszczedzic" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ukryte-koszty-kredytu-hipotecznego-jak-nie-przeplacic-przy-podpisywaniu-umowy" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/czy-dostaniesz-kredyt-hipoteczny-bez-etatu-sprawdz-warunki-bankow" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/wyzszy-kredyt-hipoteczny-spradz-jak-poprawic-swoja-zdolnosc-kredytowa" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Elements must have their visible text as part of their accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/refinansowanie-kredytu-hipotecznego-ile-mozna-zaoszczedzic" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ukryte-koszty-kredytu-hipotecznego-jak-nie-przeplacic-przy-podpisywaniu-umowy" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/czy-dostaniesz-kredyt-hipoteczny-bez-etatu-sprawdz-warunki-bankow" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/wyzszy-kredyt-hipoteczny-spradz-jak-poprawic-swoja-zdolnosc-kredytowa" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Elements must have their visible text as part of their accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/refinansowanie-kredytu-hipotecznego-ile-mozna-zaoszczedzic" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ukryte-koszty-kredytu-hipotecznego-jak-nie-przeplacic-przy-podpisywaniu-umowy" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/czy-dostaniesz-kredyt-hipoteczny-bez-etatu-sprawdz-warunki-bankow" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/wyzszy-kredyt-hipoteczny-spradz-jak-poprawic-swoja-zdolnosc-kredytowa" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Elements must have their visible text as part of their accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/refinansowanie-kredytu-hipotecznego-ile-mozna-zaoszczedzic" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ukryte-koszty-kredytu-hipotecznego-jak-nie-przeplacic-przy-podpisywaniu-umowy" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/czy-dostaniesz-kredyt-hipoteczny-bez-etatu-sprawdz-warunki-bankow" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/wyzszy-kredyt-hipoteczny-spradz-jak-poprawic-swoja-zdolnosc-kredytowa" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Elements must have their visible text as part of their accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/refinansowanie-kredytu-hipotecznego-ile-mozna-zaoszczedzic" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ukryte-koszty-kredytu-hipotecznego-jak-nie-przeplacic-przy-podpisywaniu-umowy" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/czy-dostaniesz-kredyt-hipoteczny-bez-etatu-sprawdz-warunki-bankow" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/wyzszy-kredyt-hipoteczny-spradz-jak-poprawic-swoja-zdolnosc-kredytowa" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Elements must have their visible text as part of their accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/refinansowanie-kredytu-hipotecznego-ile-mozna-zaoszczedzic" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ukryte-koszty-kredytu-hipotecznego-jak-nie-przeplacic-przy-podpisywaniu-umowy" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/czy-dostaniesz-kredyt-hipoteczny-bez-etatu-sprawdz-warunki-bankow" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/wyzszy-kredyt-hipoteczny-spradz-jak-poprawic-swoja-zdolnosc-kredytowa" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Elements must have their visible text as part of their accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/refinansowanie-kredytu-hipotecznego-ile-mozna-zaoszczedzic" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ukryte-koszty-kredytu-hipotecznego-jak-nie-przeplacic-przy-podpisywaniu-umowy" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/czy-dostaniesz-kredyt-hipoteczny-bez-etatu-sprawdz-warunki-bankow" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/wyzszy-kredyt-hipoteczny-spradz-jak-poprawic-swoja-zdolnosc-kredytowa" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Elements must have their visible text as part of their accessible name (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(1) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/refinansowanie-kredytu-hipotecznego-ile-mozna-zaoszczedzic" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(2) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/ukryte-koszty-kredytu-hipotecznego-jak-nie-przeplacic-przy-podpisywaniu-umowy" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(3) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/czy-dostaniesz-kredyt-hipoteczny-bez-etatu-sprawdz-warunki-bankow" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+    - Selektor: `.swiper-slide-active > .knowledge-blocks > .knowledge-block:nth-child(4) > a[aria-label="Przeczytaj artykuł: "]`
+      - HTML: `<a href="/wyzszy-kredyt-hipoteczny-spradz-jak-poprawic-swoja-zdolnosc-kredytowa" aria-label="Przeczytaj artykuł: ">`
+      - Do zrobienia: Fix any of the following: Text inside the element is not included in the accessible name
+
+### [error] a11y-link-name — 10 z 10 stron
+
+- Naprawa: Ensure links have discernible text Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/link-name?application=playwright
+- Strona: /
+  - Problem: Links must have discernible text (8 elem., impact: serious).
+  - Elementy (8 z 8):
+    - Selektor: `.adv > .d-md-none.d-sm-none.d-lg-flex > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10221__zoneid=2130__cb=99a1fb9fa1__oadest=https%3A%2F%2Fpolec-kredyt.comperia.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `.d-md-flex.d-sm-none.d-lg-flex > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10212__zoneid=1300__cb=93a5657548__oadest=https%3A%2F%2Fwww.comperialead.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#a40b84a6 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10210__zoneid=2012__cb=229b5019f5__oadest=https%3A%2F%2Fwww.comperialead.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /kredyty_hipoteczne
+  - Problem: Links must have discernible text (8 elem., impact: serious).
+  - Elementy (8 z 8):
+    - Selektor: `.s--adv.has--bg[aria-labelledby="adv-section-title"]:nth-child(1) > .fluid > .adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10213__zoneid=3114__cb=96ba79a7c6__oadest=https%3A%2F%2Fwww.comperialead.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `.s--adv.has--bg[aria-labelledby="adv-section-title"]:nth-child(12) > .fluid > .adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10225__zoneid=1316__cb=d2a7fb73a9__oadest=https%3A%2F%2Fpolec-kredyt.comperia.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#a1938751 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10158__zoneid=599__cb=bafe90bea4__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D900%26produkt_%3D6%26id_produkt_%3D2025050522%26link_id_%3D8458%26lid%3D8458" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Links must have discernible text (7 elem., impact: serious).
+  - Elementy (7 z 7):
+    - Selektor: `.adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10212__zoneid=1316__cb=43903cb767__oadest=https%3A%2F%2Fwww.comperialead.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#aaf33d98 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=9706__zoneid=3244__cb=f6317d0e44__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D248%26produkt_%3D6%26id_produkt_%3D2024022701%26link_id_%3D8334%26lid%3D8334" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Links must have discernible text (7 elem., impact: serious).
+  - Elementy (7 z 7):
+    - Selektor: `.adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10225__zoneid=1316__cb=99681d0559__oadest=https%3A%2F%2Fpolec-kredyt.comperia.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#aaf33d98 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=9706__zoneid=3244__cb=20ae7ca272__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D248%26produkt_%3D6%26id_produkt_%3D2024022701%26link_id_%3D8334%26lid%3D8334" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Links must have discernible text (7 elem., impact: serious).
+  - Elementy (7 z 7):
+    - Selektor: `.adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10225__zoneid=1316__cb=927324730e__oadest=https%3A%2F%2Fpolec-kredyt.comperia.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#aaf33d98 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=9706__zoneid=3244__cb=876038886c__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D248%26produkt_%3D6%26id_produkt_%3D2024022701%26link_id_%3D8334%26lid%3D8334" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Links must have discernible text (7 elem., impact: serious).
+  - Elementy (7 z 7):
+    - Selektor: `.adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10212__zoneid=1316__cb=33898fcba8__oadest=https%3A%2F%2Fwww.comperialead.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#aaf33d98 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=9706__zoneid=3244__cb=85d1c16d58__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D248%26produkt_%3D6%26id_produkt_%3D2024022701%26link_id_%3D8334%26lid%3D8334" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Links must have discernible text (7 elem., impact: serious).
+  - Elementy (7 z 7):
+    - Selektor: `.adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10225__zoneid=1316__cb=1e67ecc90a__oadest=https%3A%2F%2Fpolec-kredyt.comperia.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#aaf33d98 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=9706__zoneid=3244__cb=06a567d2e5__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D248%26produkt_%3D6%26id_produkt_%3D2024022701%26link_id_%3D8334%26lid%3D8334" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Links must have discernible text (7 elem., impact: serious).
+  - Elementy (7 z 7):
+    - Selektor: `.adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10002__zoneid=1316__cb=21bee961bc__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D248%26produkt_%3D6%26id_produkt_%3D2024022701%26link_id_%3D8334%26lid%3D8334" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#aaf33d98 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=9706__zoneid=3244__cb=a301383910__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D248%26produkt_%3D6%26id_produkt_%3D2024022701%26link_id_%3D8334%26lid%3D8334" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Links must have discernible text (7 elem., impact: serious).
+  - Elementy (7 z 7):
+    - Selektor: `.adv > .d-none.d-sm-none.d-md-none > a[target="_blank"]`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=10225__zoneid=1316__cb=1840c14636__oadest=https%3A%2F%2Fpolec-kredyt.comperia.pl%2F" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `#aaf33d98 a`
+      - HTML: `<a href="https://ads.comperia.pl/www/delivery/ck.php?oaparams=2__bannerid=9706__zoneid=3244__cb=43efdbe368__oadest=https%3A%2F%2Fpartnerzy.comperia.pl%2Fads.php%3F%26id_bank%3D248%26produkt_%3D6%26id_produkt_%3D2024022701%26link_id_%3D8334%26lid%3D8334" target="_blank">`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(10) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(2) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(3) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(5) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+    - Selektor: `li:nth-child(9) > a[href=""]`
+      - HTML: `<a href=""></a>`
+      - Do zrobienia: Fix all of the following: Element is in tab order and does not have accessible text; Fix any of the following:; Element does not have text that is visible to screen readers; aria-label attribute does not exist or is empty; aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty; Element has no title attribute
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Links must have discernible text (5 elem., impact: serious).
+  - Elementy: 5 — te same selektory co przy pierwszej stronie.
+
+### [error] a11y-list — 2 z 10 stron
+
+- Naprawa: Ensure that lists are structured correctly Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/list?application=playwright
+- Strona: /
+  - Problem: <ul> and <ol> must only directly contain <li>, <script> or <template> elements (4 elem., impact: serious).
+  - Elementy (4 z 4):
+    - Selektor: `div[aria-label="1 / 4"] > .recommends-elem > .recommends-elem__desc > ul`
+      - HTML: `<ul><br>Wystarczy wypełnić krótki formularz<br><br>Tanie ubezpieczenie dopasowane do Twoich potrzeb<br><br>Telefoniczny kontakt z agentem</ul>`
+      - Do zrobienia: Fix all of the following: List element has direct children that are not allowed: br, #text
+    - Selektor: `div[aria-label="2 / 4"] > .recommends-elem > .recommends-elem__desc > ul`
+      - HTML: `<ul>`
+      - Do zrobienia: Fix all of the following: List element has direct children that are not allowed: #text, br, img
+    - Selektor: `div[aria-label="3 / 4"] > .recommends-elem > .recommends-elem__desc > ul`
+      - HTML: `<ul>najlepsze oferty finansowe i niefinansowe<br><br>zarabiaj 5% z działań poleconych partnerów<br><br>zdobywaj punkty i wymieniaj na nagrody w programie lojalnościowym</ul>`
+      - Do zrobienia: Fix all of the following: List element has direct children that are not allowed: #text, br
+    - Selektor: `div[aria-label="4 / 4"] > .recommends-elem > .recommends-elem__desc > ul`
+      - HTML: `<ul>Gotówka na małe i większe wydatki<br><br>Bez wychodzenia z domu, nawet w 15 minut<br><br>Prosty i bezpieczny proces w 100% on-line</ul>`
+      - Do zrobienia: Fix all of the following: List element has direct children that are not allowed: #text, br
+- Strona: /kredyty_hipoteczne
+  - Problem: <ul> and <ol> must only directly contain <li>, <script> or <template> elements (2 elem., impact: serious).
+  - Elementy (2 z 2):
+    - Selektor: `.offer:nth-child(1) > .offer-desc > ul[aria-label="Szczegóły oferty"]`
+      - HTML: `<ul aria-label="Szczegóły oferty">`
+      - Do zrobienia: Fix all of the following: List element has direct children that are not allowed: #text, br, span, div
+    - Selektor: `.offer:nth-child(2) > .offer-desc > ul[aria-label="Szczegóły oferty"]`
+      - HTML: `<ul aria-label="Szczegóły oferty">`
+      - Do zrobienia: Fix all of the following: List element has direct children that are not allowed: table
+
+### [warning] lh-heading-order — 10 z 10 stron
+
+- Naprawa: Properly ordered headings that do not skip levels convey the semantic structure of the page, making it easier to navigate and understand when using assistive technologies. [Learn more about heading order](https://dequeuniversity.com/rules/axe/4.14/heading-order).
+- Strona: /
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.3 pkt w kategorii Accessibility).
+  - Elementy (3 z 3):
+    - Selektor: `div.faq-elem > div#faq1-heading > button.faq-toggler > h5`
+      - HTML: `<h5>`
+      - Do zrobienia: Fix any of the following: Heading order invalid
+    - Selektor: `div.fluid > div.example > div.example-title > h6#example-heading`
+      - HTML: `<h6 id="example-heading">`
+      - Do zrobienia: Fix any of the following: Heading order invalid
+    - Selektor: `footer.page-footer > div.fluid > div.page-footer__about > h6#about-heading`
+      - HTML: `<h6 id="about-heading" class="visually-hidden">`
+      - Do zrobienia: Fix any of the following: Heading order invalid
+- Strona: /kredyty_hipoteczne
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.3 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.4 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.4 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.4 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.4 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.4 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.4 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.4 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Heading elements are not in a sequentially-descending order (Lighthouse, -1.4 pkt w kategorii Accessibility).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+
+## Dobre praktyki (Lighthouse)
+
+### [warning] lh-errors-in-console — 10 z 10 stron
+
+- Naprawa: Errors logged to the console indicate unresolved problems. They can come from network request failures and other browser concerns. [Learn more about this errors in console diagnostic audit](https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/)
+- Strona: /
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Browser errors were logged to the console (Lighthouse, -3.8 pkt w kategorii Best Practices).
+
+### [warning] lh-image-aspect-ratio — 1 z 10 stron
+
+- Naprawa: Image display dimensions should match natural aspect ratio. [Learn more about image aspect ratio](https://developer.chrome.com/docs/lighthouse/best-practices/image-aspect-ratio/).
+- Strona: /
+  - Problem: Displays images with incorrect aspect ratio (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.ranking-elem > div#bank-rank-3 > div > img`
+      - HTML: `<img src="/pliki/top3/Logo - raiff.png" alt="" role="img">`
+
+### [warning] lh-image-size-responsive — 9 z 10 stron
+
+- Naprawa: Image natural dimensions should be proportional to the display size and the pixel ratio to maximize image clarity. [Learn how to provide responsive images](https://web.dev/articles/serve-responsive-images).
+- Strona: /
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.adv > div.aCPLtxt > a > img`
+      - HTML: `<img src="https://ads.comperia.pl/www/images/f5914cf1dab8c40696be7d84eeba8219.jpg" width="320" height="100" alt="" border="0">`
+- Strona: /kredyty_hipoteczne
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.details-left > div.details-logo > div > img`
+      - HTML: `<img src="/_img/Logotypy/alior_bank_transp.png" alt="Logo Alior Bank">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.details-left > div.details-logo > div > img`
+      - HTML: `<img src="/_img/Logotypy/alior_bank_transp.png" alt="Logo Alior Bank">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.details-left > div.details-logo > div > img`
+      - HTML: `<img src="/_img/Logotypy/bos_transp.png" alt="Logo BOŚ">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.details-left > div.details-logo > div > img`
+      - HTML: `<img src="/_img/Logotypy/bank_pekao_transp.png" alt="Logo Bank Pekao S.A.">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.details-left > div.details-logo > div > img`
+      - HTML: `<img src="/_img/Logotypy/bank_pekao_transp.png" alt="Logo Bank Pekao S.A.">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.details-left > div.details-logo > div > img`
+      - HTML: `<img src="/_img/Logotypy/bank_pekao_transp.png" alt="Logo Bank Pekao S.A.">`
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Serves images with low resolution (Lighthouse, -3.8 pkt w kategorii Best Practices).
+  - Elementy (1 z 1):
+    - Selektor: `div.details-left > div.details-logo > div > img`
+      - HTML: `<img src="/_img/Logotypy/bos_transp.png" alt="Logo BOŚ">`
+
+### [warning] lh-inspector-issues — 10 z 10 stron
+
+- Naprawa: Issues logged to the `Issues` panel in Chrome Devtools indicate unresolved problems. They can come from network request failures, insufficient security controls, and other browser concerns. Open up the Issues panel in Chrome DevTools for more details on each issue.
+- Strona: /
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Issues were logged in the `Issues` panel in Chrome Devtools (Lighthouse, -3.8 pkt w kategorii Best Practices).
+
+### [warning] lh-third-party-cookies — 10 z 10 stron
+
+- Naprawa: Third-party cookies may be blocked in some contexts. [Learn more about preparing for third-party cookie restrictions](https://privacysandbox.google.com/cookies/prepare/overview).
+- Strona: /
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: Uses third-party cookies (Lighthouse, -19.2 pkt w kategorii Best Practices).
+
+## Do ręcznej weryfikacji (axe incomplete)
+
+### [info] a11y-aria-hidden-focus — 1 z 10 stron
+
+- Naprawa: Ensure aria-hidden elements are not focusable nor contain focusable elements Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright
+- Strona: /kredyty_hipoteczne
+  - Problem: ARIA hidden element must not be focusable or contain focusable elements (2 elem., impact: serious).
+  - Elementy (2 z 2):
+    - Selektor: `.col-md-6.col-lg-4.col-12:nth-child(1) > .slider-input > .slider-input__flex > .slider-input__icon[aria-hidden="true"][href="#"]`
+      - HTML: `<a href="#" class="slider-input__icon" aria-hidden="true">`
+      - Do zrobienia: Fix all of the following: Check that focusable elements are not tabbable in the current state
+    - Selektor: `.col-md-6.col-lg-4.col-12:nth-child(2) > .slider-input > .slider-input__flex > .slider-input__icon[aria-hidden="true"][href="#"]`
+      - HTML: `<a href="#" class="slider-input__icon" aria-hidden="true">`
+      - Do zrobienia: Fix all of the following: Check that focusable elements are not tabbable in the current state
+
+### [info] a11y-aria-prohibited-attr — 9 z 10 stron
+
+- Naprawa: Ensure ARIA attributes are not prohibited for an element's role Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=playwright
+- Strona: /
+  - Problem: Elements must only use permitted ARIA attributes (1 elem., impact: serious).
+  - Elementy (1 z 1):
+    - Selektor: `.recommends-slider`
+      - HTML: `<div class="recommends-slider" data-recommends-slider="" aria-label="Rekomendowane Oferty">`
+      - Do zrobienia: Fix all of the following: aria-label attribute is not well supported on "div" elements with no valid role attribute.
+- Strona: /kredyty_hipoteczne
+  - Problem: Elements must only use permitted ARIA attributes (2 elem., impact: serious).
+  - Elementy (2 z 2):
+    - Selektor: `.products-compare__options--options > div`
+      - HTML: `<div aria-label="Formularz wyszukiwania najlepszych kredytów">`
+      - Do zrobienia: Fix all of the following: aria-label attribute is not well supported on "div" elements with no valid role attribute.
+    - Selektor: `p[aria-label="Slogan firmy"]`
+      - HTML: `<p aria-label="Slogan firmy">Z nami wybierzesz najlepszą ofertę!</p>`
+      - Do zrobienia: Fix all of the following: aria-label attribute is not well supported on "p" elements with no valid role attribute.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: Elements must only use permitted ARIA attributes (3 elem., impact: serious).
+  - Elementy (3 z 3):
+    - Selektor: `.details-desc`
+      - HTML: `<div class="details-desc" aria-labelledby="details-desc-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `.details-logo`
+      - HTML: `<div class="details-logo" aria-labelledby="bank-logo-title"><div><img src="/_img/Logotypy/alior_bank_transp.png" alt="Logo Alior Bank"></div><span id="bank-logo-title">Alior Bank</span></div>`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, and does not reference an existing element. Verify the label is not necessary.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: Elements must only use permitted ARIA attributes (3 elem., impact: serious).
+  - Elementy (3 z 3):
+    - Selektor: `.details-desc`
+      - HTML: `<div class="details-desc" aria-labelledby="details-desc-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `.details-logo`
+      - HTML: `<div class="details-logo" aria-labelledby="bank-logo-title"><div><img src="/_img/Logotypy/alior_bank_transp.png" alt="Logo Alior Bank"></div><span id="bank-logo-title">Alior Bank</span></div>`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, and does not reference an existing element. Verify the label is not necessary.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: Elements must only use permitted ARIA attributes (3 elem., impact: serious).
+  - Elementy (3 z 3):
+    - Selektor: `.details-desc`
+      - HTML: `<div class="details-desc" aria-labelledby="details-desc-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `.details-logo`
+      - HTML: `<div class="details-logo" aria-labelledby="bank-logo-title"><div><img src="/_img/Logotypy/bos_transp.png" alt="Logo BOŚ"></div><span id="bank-logo-title">BOŚ</span></div>`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, and does not reference an existing element. Verify the label is not necessary.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: Elements must only use permitted ARIA attributes (3 elem., impact: serious).
+  - Elementy (3 z 3):
+    - Selektor: `.details-desc`
+      - HTML: `<div class="details-desc" aria-labelledby="details-desc-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `.details-logo`
+      - HTML: `<div class="details-logo" aria-labelledby="bank-logo-title"><div><img src="/_img/Logotypy/bank_pekao_transp.png" alt="Logo Bank Pekao S.A."></div><span id="bank-logo-title">Bank Pekao S.A.</span></div>`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, and does not reference an existing element. Verify the label is not necessary.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: Elements must only use permitted ARIA attributes (3 elem., impact: serious).
+  - Elementy (3 z 3):
+    - Selektor: `.details-desc`
+      - HTML: `<div class="details-desc" aria-labelledby="details-desc-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `.details-logo`
+      - HTML: `<div class="details-logo" aria-labelledby="bank-logo-title"><div><img src="/_img/Logotypy/bank_pekao_transp.png" alt="Logo Bank Pekao S.A."></div><span id="bank-logo-title">Bank Pekao S.A.</span></div>`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, and does not reference an existing element. Verify the label is not necessary.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: Elements must only use permitted ARIA attributes (3 elem., impact: serious).
+  - Elementy (3 z 3):
+    - Selektor: `.details-desc`
+      - HTML: `<div class="details-desc" aria-labelledby="details-desc-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `.details-logo`
+      - HTML: `<div class="details-logo" aria-labelledby="bank-logo-title"><div><img src="/_img/Logotypy/bank_pekao_transp.png" alt="Logo Bank Pekao S.A."></div><span id="bank-logo-title">Bank Pekao S.A.</span></div>`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, and does not reference an existing element. Verify the label is not necessary.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: Elements must only use permitted ARIA attributes (3 elem., impact: serious).
+  - Elementy (3 z 3):
+    - Selektor: `.details-desc`
+      - HTML: `<div class="details-desc" aria-labelledby="details-desc-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `.details-logo`
+      - HTML: `<div class="details-logo" aria-labelledby="bank-logo-title"><div><img src="/_img/Logotypy/bos_transp.png" alt="Logo BOŚ"></div><span id="bank-logo-title">BOŚ</span></div>`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, but the elements referenced by aria-labelledby are visible in the page. Verify the label is not necessary.
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: aria-labelledby attribute is not well supported, and does not reference an existing element. Verify the label is not necessary.
+
+### [info] a11y-aria-valid-attr-value — 10 z 10 stron
+
+- Naprawa: Ensure all ARIA attributes have valid values Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=playwright
+- Strona: /
+  - Problem: ARIA attributes must conform to valid values (2 elem., impact: critical).
+  - Elementy (2 z 2):
+    - Selektor: `div[aria-labelledby="Wiedza ekspertów - karuzela"]`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+- Strona: /kredyty_hipoteczne
+  - Problem: ARIA attributes must conform to valid values (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.swiper`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+    - Selektor: `section[aria-labelledby="offers-section-title"]`
+      - HTML: `<section class="s s--offers" aria-labelledby="offers-section-title">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="offers-section-title"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: ARIA attributes must conform to valid values (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.swiper`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="details-column-title"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: ARIA attributes must conform to valid values (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.swiper`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="details-column-title"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: ARIA attributes must conform to valid values (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.swiper`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="details-column-title"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: ARIA attributes must conform to valid values (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.swiper`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="details-column-title"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: ARIA attributes must conform to valid values (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.swiper`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="details-column-title"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: ARIA attributes must conform to valid values (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.swiper`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="details-column-title"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: ARIA attributes must conform to valid values (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.swiper`
+      - HTML: `<div class="swiper swiper-initialized swiper-horizontal swiper-backface-hidden" role="region" aria-labelledby="Wiedza ekspertów - karuzela">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="Wiedza ekspertów - karuzela"
+    - Selektor: `div[aria-labelledby="details-column-title"]`
+      - HTML: `<div class="details-details__column" aria-labelledby="details-column-title">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="details-column-title"
+    - Selektor: `footer`
+      - HTML: `<footer class="page-footer" aria-labelledby="footer-heading">`
+      - Do zrobienia: Fix all of the following: ARIA attribute element ID does not exist on the page: aria-labelledby="footer-heading"
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: ARIA attributes must conform to valid values (1 elem., impact: critical).
+  - Elementy: 1 — te same selektory co przy pierwszej stronie.
+
+### [info] a11y-color-contrast — 2 z 10 stron
+
+- Naprawa: Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright
+- Strona: /
+  - Problem: Elements must meet minimum color contrast ratio thresholds (13 elem., impact: serious).
+  - Elementy (10 z 13):
+    - Selektor: `.products-compare__title`
+      - HTML: `<h3 class="products-compare__title">Wybierz interesujący Cię produkt:</h3>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `#products-compare-header`
+      - HTML: `<h2 class="products-compare__header" id="products-compare-header">Porównaj oferty</h2>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `a[data-show-options="options__1"] > span`
+      - HTML: `<span>Kredyt<br>gotówkowy</span>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `a[data-show-options="options__2"] > span`
+      - HTML: `<span>Kredyt<br>konsolidacyjny</span>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `a[data-show-options="options__3"] > span`
+      - HTML: `<span>Kredyt<br>hipoteczny</span>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `a[data-show-options="options__4"] > span`
+      - HTML: `<span>Konto<br>firmowe</span>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `a[data-show-options="options__5"] > span`
+      - HTML: `<span>Konto<br>osobiste</span>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `a[data-show-options="options__6"] > span`
+      - HTML: `<span>Konto<br>oszczędnościowe</span>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `form[action="/konta_dla_firm"] > .row > .col-lg-4.col-12:nth-child(2) > .margin-bottom-20.has--logotype.checkbox > span`
+      - HTML: `<span>Dostępne płatności mobilne</span>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `form[action="/konta_dla_firm"] > .row > .flex-column.justify-content-end.d-flex > .is--orange.button[type="submit"]`
+      - HTML: `<button type="submit" class="button is--orange">Znajdź najlepsze konto</button>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+- Strona: /kredyty_hipoteczne
+  - Problem: Elements must meet minimum color contrast ratio thresholds (7 elem., impact: serious).
+  - Elementy (7 z 7):
+    - Selektor: `.is--orange`
+      - HTML: `<button type="submit" class="button is--orange margin-bottom-40 productWidgetButton" aria-label="Znajdź kredyt">Znajdź kredyt</button>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `.products-compare__title`
+      - HTML: `<h3 class="products-compare__title">Porównaj wszystkie kredyty hipoteczne w jednym miejscu</h3>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `#input__2`
+      - HTML: `<input class="productParam irs-hidden-input" id="input__2" type="text" name="kwota_kredytu" value="250000" aria-label="Kwota kredytu" data-jump="1000" data-default="250000" data-max="1500000" data-min="1000" data-value="250000" onchange="przeliczWartoscNieruchomosci()" tabindex="-1">`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `#input__3`
+      - HTML: `<input class="productParam irs-hidden-input" id="input__3" type="text" name="okres_kredytu" data-min="1" data-max="35" data-step="1" data-jump="1" data-months="" value="25" data-value="25" aria-label="Okres spłaty" tabindex="-1">`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `#products-compare-title`
+      - HTML: `<h2 id="products-compare-title" class="products-compare__header">Kredyty hipoteczne</h2>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `label[for="input__2"]`
+      - HTML: `<label for="input__2">Kwota kredytu (zł) </label>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+    - Selektor: `label[for="input__3"]`
+      - HTML: `<label for="input__3">Okres spłaty (lata) </label>`
+      - Do zrobienia: Fix any of the following: Element's background color could not be determined due to a pseudo element
+
+### [info] a11y-duplicate-id-aria — 10 z 10 stron
+
+- Naprawa: Ensure every id attribute value used in ARIA and in labels is unique Dokumentacja: https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=playwright
+- Strona: /
+  - Problem: IDs used in ARIA and labels must be unique (4 elem., impact: critical).
+  - Elementy (4 z 4):
+    - Selektor: `.page-footer__nav[aria-labelledby="comperia-heading"][role="navigation"]:nth-child(2) > h6`
+      - HTML: `<h6 id="comperia-heading">Comperia</h6>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: comperia-heading
+    - Selektor: `.s--adv.has--bg[aria-labelledby="adv-section-title"]:nth-child(1) > .fluid > .adv > h2`
+      - HTML: `<h2 id="adv-section-title" class="visually-hidden">Reklama</h2>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: adv-section-title
+    - Selektor: `input[data-max="120"]`
+      - HTML: `<input id="input__2" type="text" name="okres_kredytu" data-min="1" data-max="120" data-step="1" data-jump="1" data-months="" value="36" data-value="36" aria-label="Okres spłaty" class="irs-hidden-input" tabindex="-1">`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: input__2
+    - Selektor: `input[value="5000"]`
+      - HTML: `<input id="input__1" type="text" name="kwota_kredytu" value="5000" aria-label="Kwota kredytu" data-min="1000" data-jump="100" data-default="5000" data-max="200000" data-step="100" data-value="5000" class="irs-hidden-input" tabindex="-1">`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: input__1
+- Strona: /kredyty_hipoteczne
+  - Problem: IDs used in ARIA and labels must be unique (2 elem., impact: critical).
+  - Elementy (2 z 2):
+    - Selektor: `.page-footer__nav[aria-labelledby="comperia-heading"][role="navigation"]:nth-child(2) > h6`
+      - HTML: `<h6 id="comperia-heading">Comperia</h6>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: comperia-heading
+    - Selektor: `.s--adv.has--bg[aria-labelledby="adv-section-title"]:nth-child(1) > .fluid > .adv > .visually-hidden`
+      - HTML: `<h2 id="adv-section-title" class="visually-hidden">Reklama</h2>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: adv-section-title
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-1485-alior-bank-megahipoteka
+  - Problem: IDs used in ARIA and labels must be unique (2 elem., impact: critical).
+  - Elementy: 2 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2754-alior-bank-megahipoteka-oferta-promocyjna
+  - Problem: IDs used in ARIA and labels must be unique (2 elem., impact: critical).
+  - Elementy: 2 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2808-bos-ekologiczny-kredyt-hipoteczny
+  - Problem: IDs used in ARIA and labels must be unique (2 elem., impact: critical).
+  - Elementy: 2 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2896-bank-pekao-s-a-kredyt-hipoteczny-z-ubezpieczeniem
+  - Problem: IDs used in ARIA and labels must be unique (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.page-footer__nav[aria-labelledby="comperia-heading"][role="navigation"]:nth-child(2) > h6`
+      - HTML: `<h6 id="comperia-heading">Comperia</h6>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: comperia-heading
+    - Selektor: `.s--adv.has--bg[aria-labelledby="adv-section-title"]:nth-child(1) > .fluid > .adv > h2`
+      - HTML: `<h2 id="adv-section-title" class="visually-hidden">Reklama</h2>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: adv-section-title
+    - Selektor: `.s--details[aria-labelledby="additional-info-title"]:nth-child(6) > .is--big.fluid > .box.is--grey > .box-header.is--small > h2`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: additional-info-title
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-2906-bank-pekao-s-a-kredyt-hipoteczny
+  - Problem: IDs used in ARIA and labels must be unique (3 elem., impact: critical).
+  - Elementy (3 z 3):
+    - Selektor: `.page-footer__nav[aria-labelledby="comperia-heading"][role="navigation"]:nth-child(2) > h6`
+      - HTML: `<h6 id="comperia-heading">Comperia</h6>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: comperia-heading
+    - Selektor: `.s--adv.has--bg[aria-labelledby="adv-section-title"]:nth-child(1) > .fluid > .adv > h2`
+      - HTML: `<h2 id="adv-section-title" class="visually-hidden">Reklama</h2>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: adv-section-title
+    - Selektor: `.s--details[aria-labelledby="additional-info-title"]:nth-child(6) > .is--big.fluid > .box.is--grey > .box-header.is--small > h2`
+      - HTML: `<h2 id="additional-info-title">Dodatkowe informacje</h2>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: additional-info-title
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-3002-bank-pekao-s-a-bank-pekao-kredyt-hipoteczny
+  - Problem: IDs used in ARIA and labels must be unique (2 elem., impact: critical).
+  - Elementy: 2 — te same selektory co przy pierwszej stronie.
+- Strona: /kredyty_hipoteczne/szczegoly-oferty-61-bos-kredyt-hipoteczny
+  - Problem: IDs used in ARIA and labels must be unique (2 elem., impact: critical).
+  - Elementy: 2 — te same selektory co przy pierwszej stronie.
+- Strona: /mapa-strony/lista-ofert-kredytow-hipotecznych
+  - Problem: IDs used in ARIA and labels must be unique (2 elem., impact: critical).
+  - Elementy (2 z 2):
+    - Selektor: `.page-footer__nav[aria-labelledby="comperia-heading"][role="navigation"]:nth-child(2) > h6`
+      - HTML: `<h6 id="comperia-heading">Comperia</h6>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: comperia-heading
+    - Selektor: `section:nth-child(1) > .fluid > .adv > h2`
+      - HTML: `<h2 id="adv-section-title" class="visually-hidden">Reklama</h2>`
+      - Do zrobienia: Fix any of the following: Document has multiple elements referenced with ARIA with the same id attribute: adv-section-title
+
+## Zaliczone reguły (na wszystkich stronach)
+
+a11y-aria-allowed-attr, a11y-aria-command-name, a11y-aria-conditional-attr, a11y-aria-deprecated-role, a11y-aria-hidden-body, a11y-aria-hidden-focus, a11y-aria-required-attr, a11y-aria-required-parent, a11y-aria-roles, a11y-aria-valid-attr, a11y-aria-valid-attr-value, a11y-avoid-inline-spacing, a11y-button-name, a11y-bypass, a11y-document-title, a11y-duplicate-id-aria, a11y-form-field-multiple-labels, a11y-html-has-lang, a11y-html-lang-valid, a11y-html-xml-lang-mismatch, a11y-link-in-text-block, a11y-listitem, a11y-meta-viewport, a11y-nested-interactive, a11y-select-name, a11y-target-size, a11y-td-headers-attr, a11y-valid-lang, seo-duplicate-description, seo-duplicate-title, seo-http-status, seo-https, seo-noindex, seo-open-graph, seo-page-error, seo-redirects, seo-robots-txt, seo-sitemap, seo-viewport
+
+## Ponowny audyt
+
+`npm --prefix audit-seo run audit -- https://www.comperia.pl/` w katalogu głównym repozytorium web-audit.
