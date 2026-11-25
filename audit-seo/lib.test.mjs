@@ -1,7 +1,7 @@
 // Testy czystej logiki: parsery (robots.txt, sitemap), reguły strony i serwisu, punktacja Lighthouse, grupowanie.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { checkPage, checkSite, groupFindings, mapLighthouse, parseSitemap, robotsBlocksAll } from './lib.mjs';
+import { checkPage, checkSite, groupFindings, mapLighthouse, parseSitemap, robotsBlocksAll, seoScore } from './lib.mjs';
 
 test('robotsBlocksAll wykrywa Disallow: / tylko dla User-agent: *', () => {
   assert.equal(robotsBlocksAll('User-agent: *\nDisallow: /'), true);
@@ -103,4 +103,10 @@ test('groupFindings łączy ten sam problem z wielu stron i bierze najgorszą wa
   assert.equal(groups.length, 1);
   assert.equal(groups[0].severity, 'error');
   assert.deepEqual(groups[0].items.map((i) => i.page), ['https://a.pl/', 'https://a.pl/b']);
+});
+
+test('seoScore: średnia Lighthouse minus 2 pkt za błąd, w granicach 0–100', () => {
+  assert.equal(seoScore([82, 86, 69], 11), 57);
+  assert.equal(seoScore([10, 10, 10], 20), 0);
+  assert.equal(seoScore(['—', '—', '—'], 0), '—');
 });

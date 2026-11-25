@@ -2,6 +2,7 @@
 
 - Data: 2026-11-20
 - Adres: `https://gemini.staffly.pl/psychometry-test/7ea9…`
+- **Wynik prywatności i zgód: 55/100** (przed zgodą −30, Consent Mode −5, wycieki −10) — liczony skryptem z ruchu sieciowego; porównywalny między domenami, 100 = brak śledzenia bez zgody.
 - Metoda: pasywna — trzy wczytania strony w świeżej przeglądarce (Chromium, pl-PL, 1440×900): A bez interakcji, B po „odrzuć”, C po „akceptuj”. Bez logowania, formularzy i skanowania.
 - Tokeny z URL i dane osobowe są zamaskowane (`abcd…`).
 

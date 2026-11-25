@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 from audit import (EMAIL_RE, check_privacy, find_consent_buttons, find_secrets, ga4_hits, har_entries, leak_hits,
-                   load_passes, make_masker, validate_ecommerce, classify_consent)
+                   load_passes, make_masker, validate_ecommerce, classify_consent, privacy_score)
 from evidence import _snippets
 
 JWT = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4In0.c2lnbmF0dXJl"
@@ -170,6 +170,19 @@ class BrowserSafety(unittest.TestCase):
             self.assertEqual([c["href"] for c in checked], ["http://127.0.0.1:9/polityka-prywatnosci"])
             browser.close()
 
+
+    def test_privacy_score_penalties(self):
+        def req(url, phase):
+            return {"t": 1, "phase": phase, "host": "x", "url": url, "post_body": None, "referer": None}
+        def pas(reqs):
+            return {"requests": reqs, "ga4": ga4_hits(reqs), "leaks": [], "datalayer": []}
+        clean = {"A": pas([req("https://www.googletagmanager.com/gtm.js?id=GTM-X", "przed")])}
+        self.assertEqual(privacy_score(clean), (100, "bez kar"))
+        ga = "https://region1.google-analytics.com/g/collect?v=2&tid=G-T&gcs={}"
+        dirty = {"A": pas([req(ga.format("G111"), "przed"), req("https://connect.facebook.net/fbevents.js", "przed")]),
+                 "B": pas([req(ga.format("G100"), "po")])}  # ping bez ciasteczek po odmowie — bez kary
+        score, detail = privacy_score(dirty)
+        self.assertEqual((score, detail), (72, "przed zgodą −20, Consent Mode −8"))  # granted przed zgodą (5) + brak default (3)
 
 if __name__ == "__main__":
     unittest.main()

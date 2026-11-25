@@ -38,6 +38,7 @@ Plansze są renderowane z przechwyconego ruchu, a nie zrzucane z DevTools — dz
 ## Jak czytać raport
 
 `reports/RRRR-MM-DD-<firma>/RAPORT.md` (raport i plansze w repo, `raw/` w `.gitignore`):
+- **Wynik prywatności i zgód (nagłówek)** — 0–100 liczony przez `privacy_score()` z ruchu, do porównywania domen: 100 minus kary — narzędzie śledzące przed zgodą 10 pkt (maks. 40), po odrzuceniu 10 pkt (maks. 25; ping GA4 z `analytics_storage` denied bez kary), kontrola Consent Mode wysoka 5 / średnia 3 (maks. 15), host z wyciekiem 10 pkt (maks. 20). Loader GTM/gtag.js bez kary. Strona bez śledzenia ma 100 — wynik mierzy prywatność, nie jakość pomiaru.
 - **Faza przed/po** — żądanie wysłane przed/po kliknięciu w baner. Tag analityczny w B/„po” = odpala mimo odmowy.
 - **Tryb Consent Mode (sekcja 2)** — [podstawowy](https://developers.google.com/tag-platform/security/concepts/consent-mode): zero żądań GA4 przed zgodą; zaawansowany: przed zgodą idą pingi z `gcs` denied. Kontrole: `consent default` z `ad_storage`, `analytics_storage`, `ad_user_data`, `ad_personalization` (denied), `wait_for_update`, `consent update` po akceptacji, `gcs` po odrzuceniu (B) i akceptacji (C).
 - **gcs** — `G1xy`: x = ad_storage, y = analytics_storage (1 granted, 0 denied). `gcd` idzie zawsze, więc nie świadczy o Consent Mode.

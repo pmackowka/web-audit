@@ -23,4 +23,5 @@ Kod wyjścia: 0 = PASS, 1 = FAIL (są błędy), 2 = audyt się nie wykonał.
 ## Wyniki (`reports/`)
 
 - `<host>-<data>.md` — raport z kodu: wyniki, problemy z id reguły, selektorem i sposobem naprawy.
+- **Wynik SEO i dostępności (nagłówek)** — 0–100 liczony przez `seoScore()`: zaokrąglona średnia kategorii Lighthouse SEO, Accessibility i Best Practices minus 2 pkt za każdą regułę z błędem (także zepsute linki, sitemap, robots). Do porównywania domen.
 - `<host>-<data>.review.md` — ocena audytora (model) z priorytetami poprawek.

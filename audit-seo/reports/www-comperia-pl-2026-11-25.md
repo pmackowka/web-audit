@@ -1,6 +1,7 @@
 # Audyt SEO i dostępności: https://www.comperia.pl/
 
 - Data: 2026-11-25
+- **Wynik SEO i dostępności: 57/100** (średnia Lighthouse z 3 kategorii − 2 × 11 błędów) — liczony skryptem, porównywalny między domenami
 - Status: **FAIL** (problemy: błędy 11, ostrzeżenia 10, info 1, do ręcznej weryfikacji 5)
 - Średnie wyniki Lighthouse (10 str.): SEO **82/100**, Accessibility **86/100**, Best Practices **69/100**
 - Zakres: 10 stron (strona startowa + kolejne adresy z sitemapy), robots.txt, sitemap, linki wewnętrzne

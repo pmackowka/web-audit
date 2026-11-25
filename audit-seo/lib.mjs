@@ -319,6 +319,15 @@ const AGENT_GUIDE = [
 
 const avg = (values) => (values.length ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : '—');
 
+// Wynik 0–100 do porównywania domen: średnia trzech kategorii Lighthouse minus 2 pkt za każdą regułę z błędem
+// (także własne reguły serwisu — zepsute linki, sitemap, robots — których Lighthouse nie widzi).
+export function seoScore(averages, errors) {
+  const nums = averages.filter((a) => typeof a === 'number');
+  if (!nums.length) return '—';
+  const base = Math.round(nums.reduce((a, b) => a + b, 0) / nums.length);
+  return Math.max(0, Math.min(100, base - 2 * errors));
+}
+
 // pages: [{ url, status, lighthouse: mapLighthouse(...) | null, error?: string }]
 export function renderReport({ url, date, engines, wcagTags, pages, groups, manualGroups, passed }) {
   const origin = new URL(url).origin;
@@ -356,6 +365,7 @@ export function renderReport({ url, date, engines, wcagTags, pages, groups, manu
     `# Audyt SEO i dostępności: ${url}`,
     '',
     `- Data: ${date}`,
+    `- **Wynik SEO i dostępności: ${seoScore(averages, count('error'))}/100** (średnia Lighthouse z 3 kategorii − 2 × ${count('error')} błędów) — liczony skryptem, porównywalny między domenami`,
     `- Status: **${status}** (problemy: błędy ${count('error')}, ostrzeżenia ${count('warning')}, info ${count('info')}, do ręcznej weryfikacji ${manualGroups.length})`,
     `- Średnie wyniki Lighthouse (${audited} str.): ${categoryTitles.map((t, i) => `${t} **${averages[i]}/100**`).join(', ')}`,
     `- Zakres: ${pages.length} stron (strona startowa + kolejne adresy z sitemapy), robots.txt, sitemap, linki wewnętrzne`,

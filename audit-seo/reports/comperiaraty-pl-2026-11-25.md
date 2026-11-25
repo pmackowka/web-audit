@@ -1,6 +1,7 @@
 # Audyt SEO i dostępności: https://comperiaraty.pl/
 
 - Data: 2026-11-25
+- **Wynik SEO i dostępności: 84/100** (średnia Lighthouse z 3 kategorii − 2 × 5 błędów) — liczony skryptem, porównywalny między domenami
 - Status: **FAIL** (problemy: błędy 5, ostrzeżenia 7, info 1, do ręcznej weryfikacji 1)
 - Średnie wyniki Lighthouse (6 str.): SEO **91/100**, Accessibility **94/100**, Best Practices **96/100**
 - Zakres: 6 stron (strona startowa + kolejne adresy z sitemapy), robots.txt, sitemap, linki wewnętrzne

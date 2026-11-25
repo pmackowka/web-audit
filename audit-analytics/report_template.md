@@ -2,6 +2,7 @@
 
 - Data: $date
 - Adres: `$url`
+- **Wynik prywatności i zgód: $score/100** ($score_detail) — liczony skryptem z ruchu sieciowego; porównywalny między domenami, 100 = brak śledzenia bez zgody.
 - Metoda: pasywna — trzy wczytania strony w świeżej przeglądarce (Chromium, pl-PL, 1440×900): A bez interakcji, B po „odrzuć”, C po „akceptuj”. Bez logowania, formularzy i skanowania.
 - Tokeny z URL i dane osobowe są zamaskowane (`abcd…`).
 

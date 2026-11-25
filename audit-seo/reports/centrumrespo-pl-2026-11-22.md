@@ -1,6 +1,7 @@
 # Audyt SEO i dostępności: https://centrumrespo.pl/
 
 - Data: 2026-11-22
+- **Wynik SEO i dostępności: 77/100** (średnia Lighthouse z 3 kategorii − 2 × 4 błędów) — liczony skryptem, porównywalny między domenami
 - Status: **FAIL** (problemy: błędy 4, ostrzeżenia 11, info 0, do ręcznej weryfikacji 1)
 - Średnie wyniki Lighthouse (10 str.): SEO **98/100**, Accessibility **92/100**, Best Practices **64/100**
 - Zakres: 10 stron (strona startowa + kolejne adresy z sitemapy), robots.txt, sitemap, linki wewnętrzne

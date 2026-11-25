@@ -673,6 +673,41 @@ def classify_consent(passes: dict) -> tuple[str, list[list]]:
     return mode, rows
 
 
+def privacy_score(passes: dict) -> tuple[int, str]:
+    """Wynik 0–100 do porównywania domen: 100 minus kary liczone wyłącznie z przechwyconego ruchu.
+    Kary (maksima sumują się do 100):
+    - przed zgodą (A, faza „przed”): 10 pkt za każde narzędzie śledzące, maks. 40;
+    - po odrzuceniu (B, faza „po”): 10 pkt za narzędzie, maks. 25; GA4 z `analytics_storage` denied
+      (ping bez ciasteczek w trybie zaawansowanym) nie jest karany;
+    - Consent Mode (`classify_consent`): 5 pkt za kontrolę o wadze wysokiej, 3 za średnią, maks. 15;
+    - wycieki tokenów i danych osobowych: 10 pkt za każdy host odbiorcy, maks. 20.
+    Tag manager (GTM, gtag.js) nie jest karany — sam loader nie wysyła danych, a Consent Mode wymaga go przed zgodą."""
+    def tools(p, phase, skip_cookieless=False):
+        found = set()
+        for r in p["requests"]:
+            name, _, cat = classify(r["url"])
+            if r["phase"] != phase or cat not in TRACKING - {"tag-manager"}:
+                continue
+            # gcs jest w query stringu żądania, wspólny dla wszystkich zdarzeń batcha
+            if skip_cookieless and "/g/collect" in r["url"] and _analytics_denied(dict(parse_qsl(urlsplit(r["url"]).query)).get("gcs")):
+                continue
+            found.add(name)
+        return found
+
+    before = tools(passes["A"], "przed")
+    after = tools(passes["B"], "po", skip_cookieless=True) if "B" in passes else set()
+    cm_rows = classify_consent(passes)[1]
+    leak_hosts = {l["host"] for p in passes.values() for l in p["leaks"]}
+    penalties = [
+        ("przed zgodą", min(40, 10 * len(before))),
+        ("po odrzuceniu", min(25, 10 * len(after))),
+        ("Consent Mode", min(15, sum({"wysoka": 5, "średnia": 3}.get(r[2], 0) for r in cm_rows))),
+        ("wycieki", min(20, 10 * len(leak_hosts))),
+    ]
+    detail = ", ".join(f"{name} −{pts}" for name, pts in penalties if pts) or "bez kar"
+    return 100 - sum(pts for _, pts in penalties), detail
+
+
 def md_table(header: list[str], rows: list[list]) -> str:
     if not rows:
         return "_brak_"
@@ -688,6 +723,7 @@ def build_report(url, slug, passes, secrets, evidence) -> str:
     modes = list(passes)
     now = time.time()
     v = {"slug": slug, "date": dt.date.today().isoformat(), "url": mask(url), "site_host": site_host}
+    v["score"], v["score_detail"] = privacy_score(passes)
 
     # Przebiegi
     rows = []
